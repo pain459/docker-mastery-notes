@@ -1,0 +1,120 @@
+# Installing docker - use the Docker's automated script to add their repository and install all dependencies:
+website at https://get.docker.com/
+
+curl -sSL https://get.docker.com/ | sh
+
+# Storing the output for ref.
+
+ubuntu@ip-172-31-7-255:~$ curl -sSL https://get.docker.com/ | sh
+# Executing docker install script, commit: 7cae5f8b0decc17d6571f9f52eb840fbc13b2737
++ sudo -E sh -c apt-get update -qq >/dev/null
++ sudo -E sh -c DEBIAN_FRONTEND=noninteractive apt-get install -y -qq apt-transport-https ca-certificates curl >/dev/null
++ sudo -E sh -c curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add -qq - >/dev/null
+Warning: apt-key output should not be parsed (stdout is not a terminal)
++ sudo -E sh -c echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable" > /etc/apt/sources.list.d/docker.list
++ sudo -E sh -c apt-get update -qq >/dev/null
++ [ -n  ]
++ sudo -E sh -c apt-get install -y -qq --no-install-recommends docker-ce >/dev/null
++ [ -n 1 ]
++ sudo -E sh -c DEBIAN_FRONTEND=noninteractive apt-get install -y -qq docker-ce-rootless-extras >/dev/null
++ sudo -E sh -c docker version
+Client: Docker Engine - Community
+ Version:           20.10.7
+ API version:       1.41
+ Go version:        go1.13.15
+ Git commit:        f0df350
+ Built:             Wed Jun  2 11:56:38 2021
+ OS/Arch:           linux/amd64
+ Context:           default
+ Experimental:      true
+
+Server: Docker Engine - Community
+ Engine:
+  Version:          20.10.7
+  API version:      1.41 (minimum version 1.12)
+  Go version:       go1.13.15
+  Git commit:       b0f5bc3
+  Built:            Wed Jun  2 11:54:50 2021
+  OS/Arch:          linux/amd64
+  Experimental:     false
+ containerd:
+  Version:          1.4.6
+  GitCommit:        d71fcd7d8303cbf684402823e425e9dd2e99285d
+ runc:
+  Version:          1.0.0-rc95
+  GitCommit:        b9ee9c6314599f1b4a7f497e1f1f856fe433d3b7
+ docker-init:
+  Version:          0.19.0
+  GitCommit:        de40ad0
+
+================================================================================
+
+To run Docker as a non-privileged user, consider setting up the
+Docker daemon in rootless mode for your user:
+
+    dockerd-rootless-setuptool.sh install
+
+Visit https://docs.docker.com/go/rootless/ to learn about rootless mode.
+
+
+To run the Docker daemon as a fully privileged service, but granting non-root
+users access, refer to https://docs.docker.com/go/daemon-access/
+
+WARNING: Access to the remote API on a privileged Docker daemon is equivalent
+         to root access on the host. Refer to the 'Docker daemon attack surface'
+         documentation for details: https://docs.docker.com/go/attack-surface/
+
+================================================================================
+
+ubuntu@ip-172-31-7-255:~$
+ubuntu@ip-172-31-7-255:~$ sudo usermod -aG docker ubuntu
+ubuntu@ip-172-31-7-255:~$
+
+Now I need to logout and log back in.
+
+ubuntu@ip-172-31-7-255:~$ docker version
+Client: Docker Engine - Community
+ Version:           20.10.7
+ API version:       1.41
+ Go version:        go1.13.15
+ Git commit:        f0df350
+ Built:             Wed Jun  2 11:56:38 2021
+ OS/Arch:           linux/amd64
+ Context:           default
+ Experimental:      true
+
+Server: Docker Engine - Community
+ Engine:
+  Version:          20.10.7
+  API version:      1.41 (minimum version 1.12)
+  Go version:       go1.13.15
+  Git commit:       b0f5bc3
+  Built:            Wed Jun  2 11:54:50 2021
+  OS/Arch:          linux/amd64
+  Experimental:     false
+ containerd:
+  Version:          1.4.6
+  GitCommit:        d71fcd7d8303cbf684402823e425e9dd2e99285d
+ runc:
+  Version:          1.0.0-rc95
+  GitCommit:        b9ee9c6314599f1b4a7f497e1f1f856fe433d3b7
+ docker-init:
+  Version:          0.19.0
+  GitCommit:        de40ad0
+ubuntu@ip-172-31-7-255:~$ sudo docker version
+Client: Docker Engine - Community
+ Version:           20.10.7
+ API version:       1.41
+ Go version:        go1.13.15
+ Git commit:        f0df350
+ Built:             Wed Jun  2 11:56:38 2021
+ OS/Arch:           linux/amd64
+ Context:           default
+ Experimental:      true
+
+Server: Docker Engine - Community
+ Engine:
+  Version:          20.10.7
+  API version:      1.41 (minimum version 1.12)
+  Go version:       go1.13.15
+  Git commit:       b0f5bc3
