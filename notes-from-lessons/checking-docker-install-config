@@ -1,0 +1,4 @@
+$ docker-Version # Verified cli can talk to engine.
+$ docker-info # Gives lot of config about docker.
+$ docker <return key> # This will give the list of commands.
+$ docker <management_command> <sub_command> (options) # This is introduced in 2017.
