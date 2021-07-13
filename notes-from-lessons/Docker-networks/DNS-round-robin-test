@@ -1,0 +1,151 @@
+Tasks:
+1. Create a new virtual network with driver bridge.
+2. Create 2 containers from elasticsearch:2 image.
+3. Research and use -network-alias search when creating them. If you already created the containers, stop them and re-create them using this option.
+4. Run on alpine 'nslookup search.' with --net to see the 2 containers list for the same DNS name.
+5. Run on centos 'curl -s search:9200' with --net multiple times to see both "name" fields show.
+
+ubuntu@ip-172-31-7-255:~$ docker network create --driver bridge dns-test
+1c5da240a2ad7a219aacd2128b0ad6dd92e5ff1249265dbd114cc75e9aaf380d
+ubuntu@ip-172-31-7-255:~$ docker network ls
+NETWORK ID     NAME       DRIVER    SCOPE
+cfdd3f444b0e   bridge     bridge    local
+1c5da240a2ad   dns-test   bridge    local
+93762da4aeea   host       host      local
+84bd74bcc6af   none       null      local
+ubuntu@ip-172-31-7-255:~$
+----
+ubuntu@ip-172-31-7-255:~$ docker container run --rm -d --network dns-test --name elastic1 elasticsearch:2
+Unable to find image 'elasticsearch:2' locally
+2: Pulling from library/elasticsearch
+05d1a5232b46: Pull complete
+5cee356eda6b: Pull complete
+89d3385f0fd3: Pull complete
+65dd87f6620b: Pull complete
+78a183a01190: Pull complete
+1a4499c85f97: Pull complete
+2c9d39b4bfc1: Pull complete
+1b1cec2222c9: Pull complete
+59ff4ce9df68: Pull complete
+1976bc3ee432: Pull complete
+a27899b7a5b5: Pull complete
+b0fc7d2c927a: Pull complete
+6d94b96bbcd0: Pull complete
+6f5bf40725fd: Pull complete
+2bf2a528ae9a: Pull complete
+Digest: sha256:41ed3a1a16b63de740767944d5405843db00e55058626c22838f23b413aa4a39
+Status: Downloaded newer image for elasticsearch:2
+caa353fbc4a4fe334c5a53d2c711f2c39d1594dd0d1bb3d8e7def680910fc645
+ubuntu@ip-172-31-7-255:~$ docker container ps -a
+CONTAINER ID   IMAGE             COMMAND                  CREATED          STATUS          PORTS                NAMES
+caa353fbc4a4   elasticsearch:2   "/docker-entrypoint.…"   17 seconds ago   Up 11 seconds   9200/tcp, 9300/tcp   elastic1
+ubuntu@ip-172-31-7-255:~$ docker container run --rm -d --network dns-test --name elastic2 elasticsearch:2
+1e4fe2606f9097dee83a024e1e1c9ee20c23751420db68b8bd3cb38031f1797c
+ubuntu@ip-172-31-7-255:~$ docker container ps -a
+CONTAINER ID   IMAGE             COMMAND                  CREATED          STATUS          PORTS                NAMES
+1e4fe2606f90   elasticsearch:2   "/docker-entrypoint.…"   4 seconds ago    Up 3 seconds    9200/tcp, 9300/tcp   elastic2
+caa353fbc4a4   elasticsearch:2   "/docker-entrypoint.…"   44 seconds ago   Up 38 seconds   9200/tcp, 9300/tcp   elastic1
+ubuntu@ip-172-31-7-255:~$
+----
+stopped the previous containers and started the new ones.
+ubuntu@ip-172-31-7-255:~$ docker container run --rm -d --network dns-test --network-alias search --name elastic1 elasticsearch:2
+e136b7b45f6dfb703ef1450000fc0e2aa7edfaa0a473db9aef9bd23442a94842
+ubuntu@ip-172-31-7-255:~$ docker container run --rm -d --network dns-test --network-alias search --name elastic2 elasticsearch:2
+ef7104488ce23d2158d00958137107acd2a6618f8d7c51d12cb56077fb2fe36b
+ubuntu@ip-172-31-7-255:~$ docker container ps -a
+CONTAINER ID   IMAGE             COMMAND                  CREATED          STATUS          PORTS                NAMES
+ef7104488ce2   elasticsearch:2   "/docker-entrypoint.…"   7 seconds ago    Up 6 seconds    9200/tcp, 9300/tcp   elastic2
+e136b7b45f6d   elasticsearch:2   "/docker-entrypoint.…"   20 seconds ago   Up 18 seconds   9200/tcp, 9300/tcp   elastic1
+ubuntu@ip-172-31-7-255:~$
+----
+Read more about nslookup here https://www.ionos.com/digitalguide/server/tools/nslookup/
+
+ubuntu@ip-172-31-7-255:~$ docker container run --rm -it -d --network dns-test --name alpine1 alpine:latest
+69aea56d989e956357efe629eaa2076e7bfb4dcfa797d76744aa19dddc228f00
+ubuntu@ip-172-31-7-255:~$ docker container ps -a
+CONTAINER ID   IMAGE             COMMAND                  CREATED         STATUS         PORTS                NAMES
+69aea56d989e   alpine:latest     "/bin/sh"                2 seconds ago   Up 1 second                         alpine1
+ef7104488ce2   elasticsearch:2   "/docker-entrypoint.…"   7 minutes ago   Up 7 minutes   9200/tcp, 9300/tcp   elastic2
+e136b7b45f6d   elasticsearch:2   "/docker-entrypoint.…"   7 minutes ago   Up 7 minutes   9200/tcp, 9300/tcp   elastic1
+ubuntu@ip-172-31-7-255:~$ docker container exec -it alpine1 sh
+/ # nslookup search.
+Server:         127.0.0.11
+Address:        127.0.0.11:53
+
+Non-authoritative answer:
+*** Can't find search.: No answer
+
+Non-authoritative answer:
+Name:   search
+Address: 172.19.0.3
+Name:   search
+Address: 172.19.0.2
+
+----
+Observe the weird behavior while creating centos container.
+ubuntu@ip-172-31-7-255:~$ docker container ps -a
+CONTAINER ID   IMAGE             COMMAND                  CREATED          STATUS          PORTS                NAMES
+69aea56d989e   alpine:latest     "/bin/sh"                6 minutes ago    Up 6 minutes                         alpine1
+ef7104488ce2   elasticsearch:2   "/docker-entrypoint.…"   13 minutes ago   Up 13 minutes   9200/tcp, 9300/tcp   elastic2
+e136b7b45f6d   elasticsearch:2   "/docker-entrypoint.…"   13 minutes ago   Up 13 minutes   9200/tcp, 9300/tcp   elastic1
+ubuntu@ip-172-31-7-255:~$ docker container run --rm -d --network dns-test --name cent1 centos:7
+7588e8f56108edd67f81fe23003afc66227708d9cac058d8ef58e8bf30c1b946
+ubuntu@ip-172-31-7-255:~$ docker container ps -a
+CONTAINER ID   IMAGE             COMMAND                  CREATED          STATUS          PORTS                NAMES
+69aea56d989e   alpine:latest     "/bin/sh"                7 minutes ago    Up 7 minutes                         alpine1
+ef7104488ce2   elasticsearch:2   "/docker-entrypoint.…"   14 minutes ago   Up 14 minutes   9200/tcp, 9300/tcp   elastic2
+e136b7b45f6d   elasticsearch:2   "/docker-entrypoint.…"   14 minutes ago   Up 14 minutes   9200/tcp, 9300/tcp   elastic1
+ubuntu@ip-172-31-7-255:~$ docker container run --rm -it -d --network dns-test --name cent1 centos:7
+67202f185f18e2daef14923f678d97a3231c570e7b005ce115b868fa8d87b1a0
+ubuntu@ip-172-31-7-255:~$ docker container ps -a
+CONTAINER ID   IMAGE             COMMAND                  CREATED          STATUS          PORTS                NAMES
+67202f185f18   centos:7          "/bin/bash"              4 seconds ago    Up 3 seconds                         cent1
+69aea56d989e   alpine:latest     "/bin/sh"                7 minutes ago    Up 7 minutes                         alpine1
+ef7104488ce2   elasticsearch:2   "/docker-entrypoint.…"   14 minutes ago   Up 14 minutes   9200/tcp, 9300/tcp   elastic2
+e136b7b45f6d   elasticsearch:2   "/docker-entrypoint.…"   14 minutes ago   Up 14 minutes   9200/tcp, 9300/tcp   elastic1
+ubuntu@ip-172-31-7-255:~$
+
+ubuntu@ip-172-31-7-255:~$ docker container exec -it cent1 bash
+[root@67202f185f18 /]# curl -s search:9200
+{
+  "name" : "Arishem the Judge",
+  "cluster_name" : "elasticsearch",
+  "cluster_uuid" : "O9oo7BhCQRSFoWfohgbEdQ",
+  "version" : {
+    "number" : "2.4.6",
+    "build_hash" : "5376dca9f70f3abef96a77f4bb22720ace8240fd",
+    "build_timestamp" : "2017-07-18T12:17:44Z",
+    "build_snapshot" : false,
+    "lucene_version" : "5.5.4"
+  },
+  "tagline" : "You Know, for Search"
+}
+[root@67202f185f18 /]# curl -s search:9200
+{
+  "name" : "Cerberus",
+  "cluster_name" : "elasticsearch",
+  "cluster_uuid" : "PXJSpVHQRfiZwpZUWAKCww",
+  "version" : {
+    "number" : "2.4.6",
+    "build_hash" : "5376dca9f70f3abef96a77f4bb22720ace8240fd",
+    "build_timestamp" : "2017-07-18T12:17:44Z",
+    "build_snapshot" : false,
+    "lucene_version" : "5.5.4"
+  },
+  "tagline" : "You Know, for Search"
+}
+[root@67202f185f18 /]# curl -s search:9200
+{
+  "name" : "Arishem the Judge",
+  "cluster_name" : "elasticsearch",
+  "cluster_uuid" : "O9oo7BhCQRSFoWfohgbEdQ",
+  "version" : {
+    "number" : "2.4.6",
+    "build_hash" : "5376dca9f70f3abef96a77f4bb22720ace8240fd",
+    "build_timestamp" : "2017-07-18T12:17:44Z",
+    "build_snapshot" : false,
+    "lucene_version" : "5.5.4"
+  },
+  "tagline" : "You Know, for Search"
+}
+[root@67202f185f18 /]#

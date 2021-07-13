@@ -1,0 +1,48 @@
+In this section we will do a simple demo on how docker finds different containers. We will do a small ping test to check these.
+
+
+ubuntu@ip-172-31-7-255:~$ docker container ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS                   PORTS     NAMES
+21441f2eff63   nginx:alpine   "/docker-entrypoint.…"   22 minutes ago   Up 22 minutes            80/tcp    nginx3
+ae2ff1418540   nginx:latest   "/docker-entrypoint.…"   3 hours ago      Created                            nginx2
+b1f8f1f2c956   nginx:latest   "/docker-entrypoint.…"   3 hours ago      Exited (0) 2 hours ago             nginx1
+
+ubuntu@ip-172-31-7-255:~$ docker network ls
+NETWORK ID     NAME         DRIVER    SCOPE
+cfdd3f444b0e   bridge       bridge    local
+93762da4aeea   host         host      local
+ad0597e82cb7   my_app_nw1   bridge    local
+84bd74bcc6af   none         null      local
+
+ubuntu@ip-172-31-7-255:~$ docker container run -d --network my_app_nw1 --name nginx4 nginx:alpine
+be05dac34caf4d93a4d8665f9b9b049c6d12b3b44ae1ed9f5a656484b2b8dcb2
+
+ubuntu@ip-172-31-7-255:~$ docker container ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS                   PORTS     NAMES
+be05dac34caf   nginx:alpine   "/docker-entrypoint.…"   7 seconds ago    Up 6 seconds             80/tcp    nginx4
+21441f2eff63   nginx:alpine   "/docker-entrypoint.…"   23 minutes ago   Up 23 minutes            80/tcp    nginx3
+ae2ff1418540   nginx:latest   "/docker-entrypoint.…"   3 hours ago      Created                            nginx2
+b1f8f1f2c956   nginx:latest   "/docker-entrypoint.…"   3 hours ago      Exited (0) 2 hours ago             nginx1
+
+ubuntu@ip-172-31-7-255:~$ docker container exec -it nginx4 ping nginx3
+PING nginx3 (172.18.0.2): 56 data bytes
+64 bytes from 172.18.0.2: seq=0 ttl=64 time=0.236 ms
+64 bytes from 172.18.0.2: seq=1 ttl=64 time=0.098 ms
+64 bytes from 172.18.0.2: seq=2 ttl=64 time=0.091 ms
+64 bytes from 172.18.0.2: seq=3 ttl=64 time=0.119 ms
+64 bytes from 172.18.0.2: seq=4 ttl=64 time=0.097 ms
+^C
+--- nginx3 ping statistics ---
+5 packets transmitted, 5 packets received, 0% packet loss
+round-trip min/avg/max = 0.091/0.128/0.236 ms
+
+ubuntu@ip-172-31-7-255:~$ docker container exec -it nginx3 ping nginx4
+PING nginx4 (172.18.0.3): 56 data bytes
+64 bytes from 172.18.0.3: seq=0 ttl=64 time=0.832 ms
+64 bytes from 172.18.0.3: seq=1 ttl=64 time=0.097 ms
+64 bytes from 172.18.0.3: seq=2 ttl=64 time=0.094 ms
+^C
+--- nginx4 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 0.094/0.341/0.832 ms
+ubuntu@ip-172-31-7-255:~$

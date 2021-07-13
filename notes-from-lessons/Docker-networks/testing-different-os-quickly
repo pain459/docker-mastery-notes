@@ -1,0 +1,39 @@
+ubuntu@ip-172-31-7-255:~$ docker image ls
+REPOSITORY   TAG       IMAGE ID       CREATED        SIZE
+nginx        alpine    b9e2356ea1be   6 days ago     22.8MB
+nginx        latest    4cdc5dd7eaad   6 days ago     133MB
+mysql        latest    5c62e459e087   2 weeks ago    556MB
+ubuntu       latest    9873176a8ff5   3 weeks ago    72.7MB
+alpine       latest    d4ff818577bc   3 weeks ago    5.6MB
+ubuntu       14.04     13b66b487594   3 months ago   197MB
+centos       7         8652b9f0cb4c   8 months ago   204MB
+ubuntu@ip-172-31-7-255:~$ docker container run --rm -it -d --name cent1 centos:7 bash
+954998dbf15002ee37cc57a44abcf4ec2d746f85d3a2f5902fe482aa7a4d1d6b
+ubuntu@ip-172-31-7-255:~$ docker container ps -a
+CONTAINER ID   IMAGE      COMMAND   CREATED         STATUS         PORTS     NAMES
+954998dbf150   centos:7   "bash"    5 seconds ago   Up 4 seconds             cent1
+ubuntu@ip-172-31-7-255:~$ docker container stop 954998dbf150
+954998dbf150
+ubuntu@ip-172-31-7-255:~$ docker container ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+ubuntu@ip-172-31-7-255:~$ docker container run --rm -it -d --name cent1 centos:7
+cd34df020ae47fe0d48256c0aa2197366d5d3b76394e4bc2ececd88551513a70
+ubuntu@ip-172-31-7-255:~$ docker container ps -a
+CONTAINER ID   IMAGE      COMMAND       CREATED         STATUS         PORTS     NAMES
+cd34df020ae4   centos:7   "/bin/bash"   3 seconds ago   Up 2 seconds             cent1
+ubuntu@ip-172-31-7-255:~$ docker container run --rm -it -d --name ubuntu1 ubuntu:14.04
+5c16b3b1bdc4206975bbdef90dda5fa87713de13f16eb597c1c48297ea38236e
+ubuntu@ip-172-31-7-255:~$ docker container ps -a
+CONTAINER ID   IMAGE          COMMAND       CREATED              STATUS              PORTS     NAMES
+5c16b3b1bdc4   ubuntu:14.04   "/bin/bash"   8 seconds ago        Up 7 seconds                  ubuntu1
+cd34df020ae4   centos:7       "/bin/bash"   About a minute ago   Up About a minute             cent1
+ubuntu@ip-172-31-7-255:~$
+
+ubuntu@ip-172-31-7-255:~$ docker container ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+ubuntu@ip-172-31-7-255:~$ docker container run --rm -it --name cent1 centos:7
+[root@3c84be61f039 /]# exit
+exit
+ubuntu@ip-172-31-7-255:~$ docker container ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+ubuntu@ip-172-31-7-255:~$
