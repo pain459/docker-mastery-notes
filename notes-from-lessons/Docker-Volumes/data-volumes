@@ -1,0 +1,231 @@
+In this demo we will see how to use named volumes in docker for easy identification. We will experiment on giving different names too.
+
+ubuntu@ip-172-31-7-255:~$ docker container run --rm -d --name mysql1 -e MYSQL_ALLOW_EMPTY_PASSWORD=True mysql:latest
+30d2cb5901526f3dbbec2951293122c5ae12dc06af0fddabfb77800d04e25a23
+ubuntu@ip-172-31-7-255:~$ docker container ls
+CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS         PORTS                 NAMES
+30d2cb590152   mysql:latest   "docker-entrypoint.s…"   6 seconds ago   Up 5 seconds   3306/tcp, 33060/tcp   mysql1
+ubuntu@ip-172-31-7-255:~$ docker volume ls
+DRIVER    VOLUME NAME
+local     a79e03d6ad0efac783e2641934efed0804a8108683f2ebd1e3bb0a231ac616b5
+ubuntu@ip-172-31-7-255:~$ docker volume inspect a79e03d6ad0efac783e2641934efed0804a8108683f2ebd1e3bb0a231ac616b5
+[
+    {
+        "CreatedAt": "2021-07-15T10:22:43Z",
+        "Driver": "local",
+        "Labels": null,
+        "Mountpoint": "/var/lib/docker/volumes/a79e03d6ad0efac783e2641934efed0804a8108683f2ebd1e3bb0a231ac616b5/_data",
+        "Name": "a79e03d6ad0efac783e2641934efed0804a8108683f2ebd1e3bb0a231ac616b5",
+        "Options": null,
+        "Scope": "local"
+    }
+]
+ubuntu@ip-172-31-7-255:~$
+
+ubuntu@ip-172-31-7-255:~$ docker container inspect mysql1
+<Truncated information>
+        "Mounts": [
+            {
+                "Type": "volume",
+                "Name": "a79e03d6ad0efac783e2641934efed0804a8108683f2ebd1e3bb0a231ac616b5",
+                "Source": "/var/lib/docker/volumes/a79e03d6ad0efac783e2641934efed0804a8108683f2ebd1e3bb0a231ac616b5/_data",
+                "Destination": "/var/lib/mysql",
+                "Driver": "local",
+                "Mode": "",
+                "RW": true,
+                "Propagation": ""
+            }
+
+            "Volumes": {
+                "/var/lib/mysql": {}
+            },
+
+ubuntu@ip-172-31-7-255:~$
+
+Data in the database can be navigated like this.
+ubuntu@ip-172-31-7-255:~$ ll /var/lib/docker/volumes/a79e03d6ad0efac783e2641934efed0804a8108683f2ebd1e3bb0a231ac616b5/_data
+total 198072
+-rw-r----- 1 systemd-coredump systemd-coredump   196608 Jul 15 10:24 '#ib_16384_0.dblwr'
+-rw-r----- 1 systemd-coredump systemd-coredump  8585216 Jul 15 10:22 '#ib_16384_1.dblwr'
+drwxr-x--- 2 systemd-coredump systemd-coredump     4096 Jul 15 10:22 '#innodb_temp'/
+drwxrwxrwt 6 systemd-coredump systemd-coredump     4096 Jul 15 10:22  ./
+drwx-----x 3 root             root                 4096 Jul 15 10:22  ../
+-rw-r----- 1 systemd-coredump systemd-coredump       56 Jul 15 10:22  auto.cnf
+-rw-r----- 1 systemd-coredump systemd-coredump  3118706 Jul 15 10:22  binlog.000001
+-rw-r----- 1 systemd-coredump systemd-coredump      156 Jul 15 10:22  binlog.000002
+-rw-r----- 1 systemd-coredump systemd-coredump       32 Jul 15 10:22  binlog.index
+-rw------- 1 systemd-coredump systemd-coredump     1680 Jul 15 10:22  ca-key.pem
+-rw-r--r-- 1 systemd-coredump systemd-coredump     1112 Jul 15 10:22  ca.pem
+-rw-r--r-- 1 systemd-coredump systemd-coredump     1112 Jul 15 10:22  client-cert.pem
+-rw------- 1 systemd-coredump systemd-coredump     1676 Jul 15 10:22  client-key.pem
+-rw-r----- 1 systemd-coredump systemd-coredump     5456 Jul 15 10:22  ib_buffer_pool
+-rw-r----- 1 systemd-coredump systemd-coredump 50331648 Jul 15 10:24  ib_logfile0
+-rw-r----- 1 systemd-coredump systemd-coredump 50331648 Jul 15 10:22  ib_logfile1
+-rw-r----- 1 systemd-coredump systemd-coredump 12582912 Jul 15 10:22  ibdata1
+-rw-r----- 1 systemd-coredump systemd-coredump 12582912 Jul 15 10:22  ibtmp1
+drwxr-x--- 2 systemd-coredump systemd-coredump     4096 Jul 15 10:22  mysql/
+-rw-r----- 1 systemd-coredump systemd-coredump 31457280 Jul 15 10:22  mysql.ibd
+drwxr-x--- 2 systemd-coredump systemd-coredump     4096 Jul 15 10:22  performance_schema/
+-rw------- 1 systemd-coredump systemd-coredump     1676 Jul 15 10:22  private_key.pem
+-rw-r--r-- 1 systemd-coredump systemd-coredump      452 Jul 15 10:22  public_key.pem
+-rw-r--r-- 1 systemd-coredump systemd-coredump     1112 Jul 15 10:22  server-cert.pem
+-rw------- 1 systemd-coredump systemd-coredump     1680 Jul 15 10:22  server-key.pem
+drwxr-x--- 2 systemd-coredump systemd-coredump     4096 Jul 15 10:22  sys/
+-rw-r----- 1 systemd-coredump systemd-coredump 16777216 Jul 15 10:24  undo_001
+-rw-r----- 1 systemd-coredump systemd-coredump 16777216 Jul 15 10:24  undo_002
+ubuntu@ip-172-31-7-255:~$
+
+----
+# In this example we attempted to create a named volume but this is of no use as the docker file is already having this condition declared at https://github.com/docker-library/mysql/blob/a09a716a88ce34a17e16df3f8b091066d90e6f34/8.0/Dockerfile.debian#L87
+
+VOLUME /var/lib/mysql
+
+ubuntu@ip-172-31-7-255:~$ docker container run --rm -d --name mysql2 -e MYSQL_ALLOW_EMPTY_PASSWORD=True -v /var/lib/mysql mysql:latest
+f82811d649abc8ff1b2704e2a5320b47e17b7ab580ba148709e84ce331d7b63e
+ubuntu@ip-172-31-7-255:~$ docker container ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS         PORTS                 NAMES
+f82811d649ab   mysql:latest   "docker-entrypoint.s…"   8 seconds ago   Up 7 seconds   3306/tcp, 33060/tcp   mysql2
+30d2cb590152   mysql:latest   "docker-entrypoint.s…"   6 minutes ago   Up 6 minutes   3306/tcp, 33060/tcp   mysql1
+ubuntu@ip-172-31-7-255:~$ docker volume ls
+DRIVER    VOLUME NAME
+local     34b1df711c776f905bc0153461c8540bbb1d7dbd706d477ce8f5156465bd3cff
+local     a79e03d6ad0efac783e2641934efed0804a8108683f2ebd1e3bb0a231ac616b5
+ubuntu@ip-172-31-7-255:~$ docker volume inspect 34b1df711c776f905bc0153461c8540bbb1d7dbd706d477ce8f5156465bd3cff
+[
+    {
+        "CreatedAt": "2021-07-15T10:29:22Z",
+        "Driver": "local",
+        "Labels": null,
+        "Mountpoint": "/var/lib/docker/volumes/34b1df711c776f905bc0153461c8540bbb1d7dbd706d477ce8f5156465bd3cff/_data",
+        "Name": "34b1df711c776f905bc0153461c8540bbb1d7dbd706d477ce8f5156465bd3cff",
+        "Options": null,
+        "Scope": "local"
+    }
+]
+ubuntu@ip-172-31-7-255:~$
+----
+
+Now we will create one more container with named volumes and try to navigate around volumes.
+
+-v name:mount will create named volume for easy navigation.
+
+ubuntu@ip-172-31-7-255:~$ docker container run --rm -d --name mysql3 -e MYSQL_ALLOW_EMPTY_PASSWORD=True -v mysql3-data:/var/lib/mysql mysql:latest
+1767314402aa3c42f25a0d724ef3cc53e8b8e1aec5ae8ab46f3fc5b89a0f53fa
+ubuntu@ip-172-31-7-255:~$ docker container ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS                 NAMES
+1767314402aa   mysql:latest   "docker-entrypoint.s…"   6 seconds ago    Up 5 seconds    3306/tcp, 33060/tcp   mysql3
+f82811d649ab   mysql:latest   "docker-entrypoint.s…"   6 minutes ago    Up 6 minutes    3306/tcp, 33060/tcp   mysql2
+30d2cb590152   mysql:latest   "docker-entrypoint.s…"   13 minutes ago   Up 13 minutes   3306/tcp, 33060/tcp   mysql1
+ubuntu@ip-172-31-7-255:~$ docker volume ls
+DRIVER    VOLUME NAME
+local     34b1df711c776f905bc0153461c8540bbb1d7dbd706d477ce8f5156465bd3cff
+local     a79e03d6ad0efac783e2641934efed0804a8108683f2ebd1e3bb0a231ac616b5
+local     mysql3-data
+ubuntu@ip-172-31-7-255:~$ docker volume inspect mysql3-data
+[
+    {
+        "CreatedAt": "2021-07-15T10:35:57Z",
+        "Driver": "local",
+        "Labels": null,
+        "Mountpoint": "/var/lib/docker/volumes/mysql3-data/_data",
+        "Name": "mysql3-data",
+        "Options": null,
+        "Scope": "local"
+    }
+]
+ubuntu@ip-172-31-7-255:~$ ll /var/lib/docker/volumes/mysql3-data/_data
+total 198072
+-rw-r----- 1 systemd-coredump systemd-coredump   196608 Jul 15 10:36 '#ib_16384_0.dblwr'
+-rw-r----- 1 systemd-coredump systemd-coredump  8585216 Jul 15 10:35 '#ib_16384_1.dblwr'
+drwxr-x--- 2 systemd-coredump systemd-coredump     4096 Jul 15 10:35 '#innodb_temp'/
+drwxrwxrwt 6 systemd-coredump systemd-coredump     4096 Jul 15 10:35  ./
+drwx-----x 3 root             root                 4096 Jul 15 10:34  ../
+-rw-r----- 1 systemd-coredump systemd-coredump       56 Jul 15 10:35  auto.cnf
+-rw-r----- 1 systemd-coredump systemd-coredump  3118706 Jul 15 10:35  binlog.000001
+-rw-r----- 1 systemd-coredump systemd-coredump      156 Jul 15 10:35  binlog.000002
+-rw-r----- 1 systemd-coredump systemd-coredump       32 Jul 15 10:35  binlog.index
+-rw------- 1 systemd-coredump systemd-coredump     1676 Jul 15 10:35  ca-key.pem
+-rw-r--r-- 1 systemd-coredump systemd-coredump     1112 Jul 15 10:35  ca.pem
+-rw-r--r-- 1 systemd-coredump systemd-coredump     1112 Jul 15 10:35  client-cert.pem
+-rw------- 1 systemd-coredump systemd-coredump     1676 Jul 15 10:35  client-key.pem
+-rw-r----- 1 systemd-coredump systemd-coredump     5456 Jul 15 10:35  ib_buffer_pool
+-rw-r----- 1 systemd-coredump systemd-coredump 50331648 Jul 15 10:36  ib_logfile0
+-rw-r----- 1 systemd-coredump systemd-coredump 50331648 Jul 15 10:35  ib_logfile1
+-rw-r----- 1 systemd-coredump systemd-coredump 12582912 Jul 15 10:36  ibdata1
+-rw-r----- 1 systemd-coredump systemd-coredump 12582912 Jul 15 10:36  ibtmp1
+drwxr-x--- 2 systemd-coredump systemd-coredump     4096 Jul 15 10:35  mysql/
+-rw-r----- 1 systemd-coredump systemd-coredump 31457280 Jul 15 10:36  mysql.ibd
+drwxr-x--- 2 systemd-coredump systemd-coredump     4096 Jul 15 10:35  performance_schema/
+-rw------- 1 systemd-coredump systemd-coredump     1676 Jul 15 10:35  private_key.pem
+-rw-r--r-- 1 systemd-coredump systemd-coredump      452 Jul 15 10:35  public_key.pem
+-rw-r--r-- 1 systemd-coredump systemd-coredump     1112 Jul 15 10:35  server-cert.pem
+-rw------- 1 systemd-coredump systemd-coredump     1680 Jul 15 10:35  server-key.pem
+drwxr-x--- 2 systemd-coredump systemd-coredump     4096 Jul 15 10:35  sys/
+-rw-r----- 1 systemd-coredump systemd-coredump 16777216 Jul 15 10:36  undo_001
+-rw-r----- 1 systemd-coredump systemd-coredump 16777216 Jul 15 10:36  undo_002
+ubuntu@ip-172-31-7-255:~$
+
+----
+Now we will attempt to create named volume conflicts and see how does the system responds.
+
+Interesting, same volume is working.
+
+ubuntu@ip-172-31-7-255:~$ docker container run --rm -d --name mysql4 -e MYSQL_ALLOW_EMPTY_PASSWORD=True -v mysql3-data:/var/lib/mysql mysql:latest
+318e82f5b040e2ad50accf25443cabcbbbfca35ccb823e6d08e0e7a30e380137
+ubuntu@ip-172-31-7-255:~$ docker volume ls
+DRIVER    VOLUME NAME
+local     34b1df711c776f905bc0153461c8540bbb1d7dbd706d477ce8f5156465bd3cff
+local     a79e03d6ad0efac783e2641934efed0804a8108683f2ebd1e3bb0a231ac616b5
+local     mysql3-data
+ubuntu@ip-172-31-7-255:~$ docker container ls
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS                 NAMES
+318e82f5b040   mysql:latest   "docker-entrypoint.s…"   21 seconds ago   Up 20 seconds   3306/tcp, 33060/tcp   mysql4
+1767314402aa   mysql:latest   "docker-entrypoint.s…"   3 minutes ago    Up 3 minutes    3306/tcp, 33060/tcp   mysql3
+f82811d649ab   mysql:latest   "docker-entrypoint.s…"   10 minutes ago   Up 10 minutes   3306/tcp, 33060/tcp   mysql2
+30d2cb590152   mysql:latest   "docker-entrypoint.s…"   16 minutes ago   Up 16 minutes   3306/tcp, 33060/tcp   mysql1
+ubuntu@ip-172-31-7-255:~$ docker volume inspect mysql3-data
+[
+    {
+        "CreatedAt": "2021-07-15T10:38:59Z",
+        "Driver": "local",
+        "Labels": null,
+        "Mountpoint": "/var/lib/docker/volumes/mysql3-data/_data",
+        "Name": "mysql3-data",
+        "Options": null,
+        "Scope": "local"
+    }
+]
+ubuntu@ip-172-31-7-255:~$
+
+But it is observed that the container went down for some reason. We will attempt to create this scenario again.
+
+Lets attempt to create a new volume with different endpoint than in the file. We will see which one honor the value.
+--> Yes we are anle to create the same. As the local container will assume that it is writing on /var/lib/mysql1 and host machine won't understand this.
+
+----
+
+Last demo..
+
+ubuntu@ip-172-31-7-255:~$ docker container ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+ubuntu@ip-172-31-7-255:~$ docker container run --rm -d --name mysql1 -e MYSQL_ALLOW_EMPTY_PASSWORD=True -v mysql1-data:/var/lib/mysql mysql:latest
+e4bc4838733768b466b9d854780be22d67f4525e21327ba44f632b782ad0d9a1
+ubuntu@ip-172-31-7-255:~$ docker container run --rm -d --name mysql2 -e MYSQL_ALLOW_EMPTY_PASSWORD=True -v mysql2-data:/var/lib/mysql mysql:latest
+e6aefb1be006c41e0627252adadfd1143a1c9aa6109f9b3d27f97dc8cca8f481
+ubuntu@ip-172-31-7-255:~$ docker container ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS                 NAMES
+e6aefb1be006   mysql:latest   "docker-entrypoint.s…"   4 seconds ago    Up 3 seconds    3306/tcp, 33060/tcp   mysql2
+e4bc48387337   mysql:latest   "docker-entrypoint.s…"   16 seconds ago   Up 15 seconds   3306/tcp, 33060/tcp   mysql1
+ubuntu@ip-172-31-7-255:~$ docker volume ls
+DRIVER    VOLUME NAME
+local     mysql1-data
+local     mysql2-data
+ubuntu@ip-172-31-7-255:~$ docker container stop mysql1
+mysql1
+ubuntu@ip-172-31-7-255:~$ docker container ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS                 NAMES
+e6aefb1be006   mysql:latest   "docker-entrypoint.s…"   34 seconds ago   Up 34 seconds   3306/tcp, 33060/tcp   mysql2
+ubuntu@ip-172-31-7-255:~$ docker volume ls
+DRIVER    VOLUME NAME
+local     mysql1-data
+local     mysql2-data

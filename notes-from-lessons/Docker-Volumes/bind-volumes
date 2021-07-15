@@ -1,0 +1,66 @@
+We will experiment bind mounts in this experiment. Bind mount is nothing but mounting the host location onto container so the changes will flow through. Development will be much easier with this approach as containers will generate data and it will be stored on the local disk.
+
+We will run nginx containers and try to edit the information on the files. Our webserver should be able to catch it.
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/dockerfile-sample-2$ ll
+total 16
+drwxrwxr-x  2 ubuntu ubuntu 4096 Jul 13 15:52 ./
+drwxrwxr-x 32 ubuntu ubuntu 4096 Jul 13 15:52 ../
+-rw-rw-r--  1 ubuntu ubuntu  410 Jul 13 15:52 Dockerfile
+-rw-rw-r--  1 ubuntu ubuntu  249 Jul 13 15:52 index.html
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/dockerfile-sample-2$ docker container run --rm -d --name nginx1 -p 80:80 -v pwd:/usr/share/nginx/html nginx:latest
+Unable to find image 'nginx:latest' locally
+latest: Pulling from library/nginx
+b4d181a07f80: Already exists
+66b1c490df3f: Pull complete
+d0f91ae9b44c: Pull complete
+baf987068537: Pull complete
+6bbc76cbebeb: Pull complete
+32b766478bc2: Pull complete
+Digest: sha256:353c20f74d9b6aee359f30e8e4f69c3d7eaea2f610681c4a95849a2fd7c497f9
+Status: Downloaded newer image for nginx:latest
+5bd2fa2274c47f447714b2d554527a2d57d6ca1e0083e2c4543b29de113e05a6
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/dockerfile-sample-2$ docker container ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS         PORTS                               NAMES
+5bd2fa2274c4   nginx:latest   "/docker-entrypoint.…"   10 seconds ago   Up 9 seconds   0.0.0.0:80->80/tcp, :::80->80/tcp   nginx1
+
+# Running a second container with correct directory.
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/dockerfile-sample-2$ pwd
+/home/ubuntu/repos/udemy-docker-mastery/dockerfile-sample-2
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/dockerfile-sample-2$ docker container run --rm -d --name nginx2 -p 8080:80 -v /home/ubuntu/repos/udemy-docker-mastery/dockerfile-sample-2/:/usr/share/nginx/html/ nginx:latest
+93827bfc2876c07dca6f2a3d6db7e004e7a013e3f75a4bdd47fac04872d783c8
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/dockerfile-sample-2$ docker container ps -a
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS                                   NAMES
+93827bfc2876   nginx:latest   "/docker-entrypoint.…"   26 seconds ago   Up 25 seconds   0.0.0.0:8080->80/tcp, :::8080->80/tcp   nginx2
+5bd2fa2274c4   nginx:latest   "/docker-entrypoint.…"   2 minutes ago    Up 2 minutes    0.0.0.0:80->80/tcp, :::80->80/tcp       nginx1
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/dockerfile-sample-2$
+
+Upon inspecting the container, the source is changing.
+
+"Mounts": [
+         {
+             "Type": "bind",
+             "Source": "/home/ubuntu/repos/udemy-docker-mastery/dockerfile-sample-2",
+             "Destination": "/usr/share/nginx/html",
+             "Mode": "",
+             "RW": true,
+             "Propagation": "rprivate"
+         }
+
+I can see the data inside the container too.
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/dockerfile-sample-2$ docker container exec -it nginx2 bash
+root@93827bfc2876:/# ls -al /usr/share/nginx/html/
+total 20
+drwxrwxr-x 2 1000 1000 4096 Jul 15 11:23 .
+drwxr-xr-x 3 root root 4096 Jul  6 19:39 ..
+-rw-rw-r-- 1 1000 1000  410 Jul 13 15:52 Dockerfile
+-rw-rw-r-- 1 1000 1000    8 Jul 15 11:22 custom.txt
+-rw-rw-r-- 1 1000 1000  249 Jul 13 15:52 index.html
+root@93827bfc2876:/#
+
+After I delete the container, I see a volume named pwd. This is created as part of the first container and no longer required.
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/dockerfile-sample-2$ docker volume ls
+DRIVER    VOLUME NAME
+local     pwd

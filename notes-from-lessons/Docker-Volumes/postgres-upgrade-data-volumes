@@ -1,0 +1,224 @@
+In this exercise, we will upgrade the postgres server from 9.6.1 to 9.6.2 and attempt to re-use the same data volumes.
+
+Downloaded the tags postgres:9.6.1 and postgres:9.6.2
+
+ubuntu@ip-172-31-7-255:/var/tmp$ docker image ls
+REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
+nginx        latest    4cdc5dd7eaad   8 days ago    133MB
+mysql        latest    5c62e459e087   3 weeks ago   556MB
+postgres     9.6.2     b3b8a2229953   4 years ago   267MB
+postgres     9.6.1     4023a747a01a   4 years ago   265MB
+ubuntu@ip-172-31-7-255:/var/tmp$
+
+VOLUME stanza is pointing to /var/lib/postgresql/data
+
+# Starting a new container.
+
+ubuntu@ip-172-31-7-255:/var/tmp$
+ubuntu@ip-172-31-7-255:/var/tmp$ docker container run -d --name postgres1 -v postgres-data:/var/lib/postgresql/data postgres:9.6.1
+e5072ad92699614ed8e41e55c5867cf9f47700fbd2e8f7b460f67cdc78950a09
+ubuntu@ip-172-31-7-255:/var/tmp$ docker container logs postgres1
+The files belonging to this database system will be owned by user "postgres".
+This user must also own the server process.
+
+The database cluster will be initialized with locale "en_US.utf8".
+The default database encoding has accordingly been set to "UTF8".
+The default text search configuration will be set to "english".
+
+Data page checksums are disabled.
+
+fixing permissions on existing directory /var/lib/postgresql/data ... ok
+creating subdirectories ... ok
+selecting default max_connections ... 100
+selecting default shared_buffers ... 128MB
+selecting dynamic shared memory implementation ... posix
+creating configuration files ... ok
+running bootstrap script ... ok
+performing post-bootstrap initialization ... ok
+
+WARNING: enabling "trust" authentication for local connections
+You can change this by editing pg_hba.conf or using the option -A, or
+--auth-local and --auth-host, the next time you run initdb.
+syncing data to disk ... ok
+
+Success. You can now start the database server using:
+
+    pg_ctl -D /var/lib/postgresql/data -l logfile start
+
+****************************************************
+WARNING: No password has been set for the database.
+         This will allow anyone with access to the
+         Postgres port to access your database. In
+         Docker's default configuration, this is
+         effectively any other container on the same
+         system.
+
+         Use "-e POSTGRES_PASSWORD=password" to set
+         it in "docker run".
+****************************************************
+waiting for server to start....LOG:  could not bind IPv6 socket: Cannot assign requested address
+HINT:  Is another postmaster already running on port 5432? If not, wait a few seconds and retry.
+LOG:  database system was shut down at 2021-07-15 11:44:13 UTC
+LOG:  MultiXact member wraparound protections are now enabled
+LOG:  database system is ready to accept connections
+LOG:  autovacuum launcher started
+ done
+server started
+ALTER ROLE
+
+
+/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*
+
+LOG:  received fast shutdown request
+waiting for server to shut down....LOG:  aborting any active transactions
+LOG:  autovacuum launcher shutting down
+LOG:  shutting down
+LOG:  database system is shut down
+ done
+server stopped
+
+PostgreSQL init process complete; ready for start up.
+
+LOG:  database system was shut down at 2021-07-15 11:44:15 UTC
+LOG:  MultiXact member wraparound protections are now enabled
+LOG:  database system is ready to accept connections
+LOG:  autovacuum launcher started
+
+----
+
+Checking volumes and inspecting container.
+ubuntu@ip-172-31-7-255:/var/tmp$ docker volume ls
+DRIVER    VOLUME NAME
+local     postgres-data
+ubuntu@ip-172-31-7-255:/var/tmp$ docker container inspect postgres1
+---truncated---
+
+"Mounts": [
+            {
+                "Type": "volume",
+                "Name": "postgres-data",
+                "Source": "/var/lib/docker/volumes/postgres-data/_data",
+                "Destination": "/var/lib/postgresql/data",
+                "Driver": "local",
+                "Mode": "z",
+                "RW": true,
+                "Propagation": ""
+            }
+        ],
+----
+
+# Stopping and starting the container with new version but with same data volume.
+
+ubuntu@ip-172-31-7-255:/var/tmp$ docker container ps
+CONTAINER ID   IMAGE            COMMAND                  CREATED         STATUS         PORTS      NAMES
+e5072ad92699   postgres:9.6.1   "/docker-entrypoint.…"   4 minutes ago   Up 4 minutes   5432/tcp   postgres1
+ubuntu@ip-172-31-7-255:/var/tmp$ docker container stop postgres1
+postgres1
+# logs for reference...
+ubuntu@ip-172-31-7-255:/var/tmp$ docker container logs postgres1
+The files belonging to this database system will be owned by user "postgres".
+This user must also own the server process.
+
+The database cluster will be initialized with locale "en_US.utf8".
+The default database encoding has accordingly been set to "UTF8".
+The default text search configuration will be set to "english".
+
+Data page checksums are disabled.
+
+fixing permissions on existing directory /var/lib/postgresql/data ... ok
+creating subdirectories ... ok
+selecting default max_connections ... 100
+selecting default shared_buffers ... 128MB
+selecting dynamic shared memory implementation ... posix
+creating configuration files ... ok
+running bootstrap script ... ok
+performing post-bootstrap initialization ... ok
+
+WARNING: enabling "trust" authentication for local connections
+You can change this by editing pg_hba.conf or using the option -A, or
+--auth-local and --auth-host, the next time you run initdb.
+syncing data to disk ... ok
+
+Success. You can now start the database server using:
+
+    pg_ctl -D /var/lib/postgresql/data -l logfile start
+
+****************************************************
+WARNING: No password has been set for the database.
+         This will allow anyone with access to the
+         Postgres port to access your database. In
+         Docker's default configuration, this is
+         effectively any other container on the same
+         system.
+
+         Use "-e POSTGRES_PASSWORD=password" to set
+         it in "docker run".
+****************************************************
+waiting for server to start....LOG:  could not bind IPv6 socket: Cannot assign requested address
+HINT:  Is another postmaster already running on port 5432? If not, wait a few seconds and retry.
+LOG:  database system was shut down at 2021-07-15 11:44:13 UTC
+LOG:  MultiXact member wraparound protections are now enabled
+LOG:  database system is ready to accept connections
+LOG:  autovacuum launcher started
+ done
+server started
+ALTER ROLE
+
+
+/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*
+
+LOG:  received fast shutdown request
+waiting for server to shut down....LOG:  aborting any active transactions
+LOG:  autovacuum launcher shutting down
+LOG:  shutting down
+LOG:  database system is shut down
+ done
+server stopped
+
+PostgreSQL init process complete; ready for start up.
+
+LOG:  database system was shut down at 2021-07-15 11:44:15 UTC
+LOG:  MultiXact member wraparound protections are now enabled
+LOG:  database system is ready to accept connections
+LOG:  autovacuum launcher started
+LOG:  received smart shutdown request
+LOG:  autovacuum launcher shutting down
+LOG:  shutting down
+LOG:  database system is shut down
+ubuntu@ip-172-31-7-255:/var/tmp$
+---
+
+ubuntu@ip-172-31-7-255:/var/tmp$ docker container run -d --name postgres2 -v postgres-data:/var/lib/postgresql/data postgres:9.6.2
+73b7876cf372cf6d9a8be66e39d2cfdf05a4711483d4067515554efc31a5e757
+ubuntu@ip-172-31-7-255:/var/tmp$ docker container logs postgres2
+LOG:  database system was shut down at 2021-07-15 11:48:24 UTC
+LOG:  MultiXact member wraparound protections are now enabled
+LOG:  database system is ready to accept connections
+LOG:  autovacuum launcher started
+
+ubuntu@ip-172-31-7-255:/var/tmp$ docker container ps -a
+CONTAINER ID   IMAGE            COMMAND                  CREATED          STATUS                     PORTS      NAMES
+73b7876cf372   postgres:9.6.2   "docker-entrypoint.s…"   28 seconds ago   Up 27 seconds              5432/tcp   postgres2
+e5072ad92699   postgres:9.6.1   "/docker-entrypoint.…"   6 minutes ago    Exited (0) 2 minutes ago              postgres1
+ubuntu@ip-172-31-7-255:/var/tmp$
+
+ubuntu@ip-172-31-7-255:/var/tmp$ docker volume ls
+DRIVER    VOLUME NAME
+local     postgres-data
+ubuntu@ip-172-31-7-255:/var/tmp$ docker container inspect postgres2
+...truncated...
+
+"Mounts": [
+            {
+                "Type": "volume",
+                "Name": "postgres-data",
+                "Source": "/var/lib/docker/volumes/postgres-data/_data",
+                "Destination": "/var/lib/postgresql/data",
+                "Driver": "local",
+                "Mode": "z",
+                "RW": true,
+                "Propagation": ""
+            }
+        ],
+
+Database upgrade is completed and container is now running.
