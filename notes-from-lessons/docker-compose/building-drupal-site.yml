@@ -1,0 +1,53 @@
+# In this example, we will write a yaml config file to create a drupal content management site with postgres in the backend.
+
+version: "3.9"
+services:
+    drupalserver1:
+      image: drupal:latest
+      ports:
+        - 8080:80
+      volumes:
+        - drupal-modules:/var/www/html/modules
+        - drupal-profiles:/var/www/html/profiles
+        - drupal-sites:/var/www/html/sites
+        - drupal-themes:/var/www/html/themes
+    postgres1:
+      image: postgres:10
+      environment:
+        POSTGRES_PASSWORD: admin123
+volumes:
+  drupal-modules: {}
+  drupal-profiles: {}
+  drupal-sites: {}
+  drupal-themes: {}
+
+
+# Final invocation
+ubuntu@ip-172-31-7-255:~/build_files/drupal_deploy$ docker-compose -f deploy-druper-compose.yml up
+Recreating drupal_deploy_drupalserver1_1 ... done
+Starting drupal_deploy_postgres1_1       ... done
+
+At the setup console, give the server name service name... postgres1 as declared above. IP address will also work.
+
+Volumes are preserved with this approach.
+
+ubuntu@ip-172-31-7-255:~/build_files/drupal_deploy$ docker volume ls
+DRIVER    VOLUME NAME
+local     a65980eb77c8af7e27e71827817e086af23fd2536bc0e69e3338bef15d7c623a
+local     drupal_deploy_drupal-modules
+local     drupal_deploy_drupal-profiles
+local     drupal_deploy_drupal-sites
+local     drupal_deploy_drupal-themes
+local     f304468582809cde102af23ae4f1280c9e96a9c07fe59dd85734b48fcd5fbf3d
+
+Now we will remove everything cleanly created as part of the exercise.
+
+ubuntu@ip-172-31-7-255:~/build_files/drupal_deploy$ docker-compose -f deploy-druper-compose.yml down -v
+Removing drupal_deploy_postgres1_1     ... done
+Removing drupal_deploy_drupalserver1_1 ... done
+Removing network drupal_deploy_default
+Removing volume drupal_deploy_drupal-modules
+Removing volume drupal_deploy_drupal-profiles
+Removing volume drupal_deploy_drupal-sites
+Removing volume drupal_deploy_drupal-themes
+ubuntu@ip-172-31-7-255:~/build_files/drupal_deploy$
