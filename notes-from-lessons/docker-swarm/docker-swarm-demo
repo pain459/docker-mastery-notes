@@ -1,0 +1,201 @@
+# In this demo we will see how to create alpine container and tweak the numbers and explore other commands.
+
+ubuntu@ip-172-31-7-255:~$ docker service create alpine ping 8.8.8.8
+kk3ftpq2jcc1js8l9edkq549y
+overall progress: 1 out of 1 tasks
+1/1: running   [==================================================>]
+verify: Service converged
+ubuntu@ip-172-31-7-255:~$
+
+ubuntu@ip-172-31-7-255:~$ docker service ls
+ID             NAME               MODE         REPLICAS   IMAGE           PORTS
+kk3ftpq2jcc1   objective_napier   replicated   1/1        alpine:latest
+ubuntu@ip-172-31-7-255:~$ docker container ls
+CONTAINER ID   IMAGE           COMMAND          CREATED          STATUS          PORTS     NAMES
+e8d3d5d14c1b   alpine:latest   "ping 8.8.8.8"   26 seconds ago   Up 25 seconds             objective_napier.1.pgzj6htydchppx43gn22yayhr
+ubuntu@ip-172-31-7-255:~$ docker container ps -a
+CONTAINER ID   IMAGE           COMMAND          CREATED          STATUS          PORTS     NAMES
+e8d3d5d14c1b   alpine:latest   "ping 8.8.8.8"   37 seconds ago   Up 37 seconds             objective_napier.1.pgzj6htydchppx43gn22yayhr
+ubuntu@ip-172-31-7-255:~$ docker container logs objective_napier.1.pgzj6htydchppx43gn22yayhr
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=109 time=1.612 ms
+64 bytes from 8.8.8.8: seq=1 ttl=109 time=1.524 ms
+64 bytes from 8.8.8.8: seq=2 ttl=109 time=1.575 ms
+64 bytes from 8.8.8.8: seq=3 ttl=109 time=1.562 ms
+64 bytes from 8.8.8.8: seq=4 ttl=109 time=1.544 ms
+.. truncated...
+
+# You need to specify the name of the service. docker service wont list the service names with just ps or ps -a.
+ubuntu@ip-172-31-7-255:~$ docker service ps
+"docker service ps" requires at least 1 argument.
+See 'docker service ps --help'.
+
+Usage:  docker service ps [OPTIONS] SERVICE [SERVICE...]
+
+List the tasks of one or more services
+ubuntu@ip-172-31-7-255:~$ docker service ps kk3ftpq2jcc1
+ID             NAME                 IMAGE           NODE              DESIRED STATE   CURRENT STATE           ERROR     PORTS
+pgzj6htydchp   objective_napier.1   alpine:latest   ip-172-31-7-255   Running         Running 2 minutes ago
+ubuntu@ip-172-31-7-255:~$
+
+----
+
+# scaling up and verififcation.
+
+ubuntu@ip-172-31-7-255:~$ docker service update kk3ftpq2jcc1 --replicas 3
+kk3ftpq2jcc1
+overall progress: 3 out of 3 tasks
+1/3: running   [==================================================>]
+2/3: running   [==================================================>]
+3/3: running   [==================================================>]
+verify: Service converged
+ubuntu@ip-172-31-7-255:~$
+
+ubuntu@ip-172-31-7-255:~$ docker service ls
+ID             NAME               MODE         REPLICAS   IMAGE           PORTS
+kk3ftpq2jcc1   objective_napier   replicated   3/3        alpine:latest
+ubuntu@ip-172-31-7-255:~$
+ubuntu@ip-172-31-7-255:~$ docker service ps objective_napier
+ID             NAME                 IMAGE           NODE              DESIRED STATE   CURRENT STATE            ERROR     PORTS
+pgzj6htydchp   objective_napier.1   alpine:latest   ip-172-31-7-255   Running         Running 6 minutes ago
+miz56rfi5eoq   objective_napier.2   alpine:latest   ip-172-31-7-255   Running         Running 59 seconds ago
+1aalbzfr2e1l   objective_napier.3   alpine:latest   ip-172-31-7-255   Running         Running 59 seconds ago
+ubuntu@ip-172-31-7-255:~$
+-----
+# Killing a container and swarm automatically spinning it up.
+
+ubuntu@ip-172-31-7-255:~$ docker container ls
+CONTAINER ID   IMAGE           COMMAND          CREATED              STATUS              PORTS     NAMES
+3ad3dad8c1c6   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.3.1aalbzfr2e1ly8jtjxl5z11q1
+b9ab3383e455   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.2.miz56rfi5eoqgz1n1xk3unumz
+e8d3d5d14c1b   alpine:latest   "ping 8.8.8.8"   6 minutes ago        Up 6 minutes                  objective_napier.1.pgzj6htydchppx43gn22yayhr
+ubuntu@ip-172-31-7-255:~$ docker container rm -f 3ad3dad8c1c6
+3ad3dad8c1c6
+ubuntu@ip-172-31-7-255:~$ docker container ls
+CONTAINER ID   IMAGE           COMMAND          CREATED              STATUS              PORTS     NAMES
+b9ab3383e455   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.2.miz56rfi5eoqgz1n1xk3unumz
+e8d3d5d14c1b   alpine:latest   "ping 8.8.8.8"   6 minutes ago        Up 6 minutes                  objective_napier.1.pgzj6htydchppx43gn22yayhr
+ubuntu@ip-172-31-7-255:~$ docker service ps objective_napier
+ID             NAME                     IMAGE           NODE              DESIRED STATE   CURRENT STATE                    ERROR                         PORTS
+pgzj6htydchp   objective_napier.1       alpine:latest   ip-172-31-7-255   Running         Running 6 minutes ago
+miz56rfi5eoq   objective_napier.2       alpine:latest   ip-172-31-7-255   Running         Running about a minute ago
+pd55tkgejc6c   objective_napier.3       alpine:latest   ip-172-31-7-255   Running         Running less than a second ago
+1aalbzfr2e1l    \_ objective_napier.3   alpine:latest   ip-172-31-7-255   Shutdown        Failed 6 seconds ago             "task: non-zero exit (137)"
+ubuntu@ip-172-31-7-255:~$
+
+
+----
+
+# for fun, I created 20 containers.
+
+ubuntu@ip-172-31-7-255:~$ docker service ps objective_napier
+ID             NAME                     IMAGE           NODE              DESIRED STATE   CURRENT STATE            ERROR                         PORTS
+pgzj6htydchp   objective_napier.1       alpine:latest   ip-172-31-7-255   Running         Running 9 minutes ago
+miz56rfi5eoq   objective_napier.2       alpine:latest   ip-172-31-7-255   Running         Running 3 minutes ago
+pd55tkgejc6c   objective_napier.3       alpine:latest   ip-172-31-7-255   Running         Running 2 minutes ago
+1aalbzfr2e1l    \_ objective_napier.3   alpine:latest   ip-172-31-7-255   Shutdown        Failed 2 minutes ago     "task: non-zero exit (137)"
+kl40tk7mpbsy   objective_napier.4       alpine:latest   ip-172-31-7-255   Running         Running 37 seconds ago
+m4d4qilyk4b3   objective_napier.5       alpine:latest   ip-172-31-7-255   Running         Running 36 seconds ago
+6vham8tcg2i3   objective_napier.6       alpine:latest   ip-172-31-7-255   Running         Running 37 seconds ago
+ihrq9q2d7eiu   objective_napier.7       alpine:latest   ip-172-31-7-255   Running         Running 36 seconds ago
+0zynt8ywu8i7   objective_napier.8       alpine:latest   ip-172-31-7-255   Running         Running 37 seconds ago
+owtwpz9if88l   objective_napier.9       alpine:latest   ip-172-31-7-255   Running         Running 38 seconds ago
+ll2z5k7j7mox   objective_napier.10      alpine:latest   ip-172-31-7-255   Running         Running 38 seconds ago
+e3ttk1x1i0jw   objective_napier.11      alpine:latest   ip-172-31-7-255   Running         Running 37 seconds ago
+jvbebz9iikoc   objective_napier.12      alpine:latest   ip-172-31-7-255   Running         Running 37 seconds ago
+jflj0ydo56v1   objective_napier.13      alpine:latest   ip-172-31-7-255   Running         Running 37 seconds ago
+n32z3xiztje5   objective_napier.14      alpine:latest   ip-172-31-7-255   Running         Running 39 seconds ago
+2vn16e30jjvf   objective_napier.15      alpine:latest   ip-172-31-7-255   Running         Running 37 seconds ago
+ot3mzf5vxzjj   objective_napier.16      alpine:latest   ip-172-31-7-255   Running         Running 37 seconds ago
+cnbvsyq9c0km   objective_napier.17      alpine:latest   ip-172-31-7-255   Running         Running 36 seconds ago
+rt8wa1mbv6uv   objective_napier.18      alpine:latest   ip-172-31-7-255   Running         Running 37 seconds ago
+n0wa6zvc4fez   objective_napier.19      alpine:latest   ip-172-31-7-255   Running         Running 39 seconds ago
+8nvk82wcucl6   objective_napier.20      alpine:latest   ip-172-31-7-255   Running         Running 37 seconds ago
+ubuntu@ip-172-31-7-255:~$
+-----
+
+# to stop the containers, we need to rm the service entirely. Demo below.
+
+ubuntu@ip-172-31-7-255:~$ docker service --help
+
+Usage:  docker service COMMAND
+
+Manage services
+
+Commands:
+  create      Create a new service
+  inspect     Display detailed information on one or more services
+  logs        Fetch the logs of a service or task
+  ls          List services
+  ps          List the tasks of one or more services
+  rm          Remove one or more services
+  rollback    Revert changes to a service's configuration
+  scale       Scale one or multiple replicated services
+  update      Update a service
+
+Run 'docker service COMMAND --help' for more information on a command.
+ubuntu@ip-172-31-7-255:~$ docker service rm objective_napier
+objective_napier
+ubuntu@ip-172-31-7-255:~$ docker container ls
+CONTAINER ID   IMAGE           COMMAND          CREATED              STATUS              PORTS     NAMES
+cdc7523561e5   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.5.m4d4qilyk4b3fwddg3shz0p5s
+06a1d0e1c4ca   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.8.0zynt8ywu8i78qc8g0kyeranx
+9f6f4cc1423e   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.6.6vham8tcg2i3xont1cf0s7oor
+16e4b3801c6a   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.11.e3ttk1x1i0jw6sz8hxe8wvxol
+9f9b7abcfd00   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.20.8nvk82wcucl6116w198hk9b75
+58d9c6ef12ec   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.13.jflj0ydo56v18m900co3zbxg9
+814debd1796e   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.15.2vn16e30jjvfxrisvsf6z8fu3
+8733fe20da75   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.17.cnbvsyq9c0kmcrhkgij0a9ees
+95287aec0315   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.7.ihrq9q2d7eiuyalrhwvcy379d
+bb29f0f1e657   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.12.jvbebz9iikocrk2kmoxjftcbz
+dfef9737c656   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.16.ot3mzf5vxzjjdaih49vy825pf
+d06ce3d9e1cc   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.4.kl40tk7mpbsyth4rbgpctwz29
+043c2e2f6eb2   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.19.n0wa6zvc4fez7h6pz3h0lemd9
+1d52bb58b67b   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.18.rt8wa1mbv6uv56fkk01p0ju7x
+529bdf69f519   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.9.owtwpz9if88l7c6nnvwy9ap0o
+d0cafa26d018   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.10.ll2z5k7j7moxmu286sd8xz5js
+8fb5ba2b9f44   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.14.n32z3xiztje52c8fbxqhd6yck
+5ebbcb74c750   alpine:latest   "ping 8.8.8.8"   3 minutes ago        Up 3 minutes                  objective_napier.3.pd55tkgejc6cnx1u8dmmx3v9s
+b9ab3383e455   alpine:latest   "ping 8.8.8.8"   4 minutes ago        Up 4 minutes                  objective_napier.2.miz56rfi5eoqgz1n1xk3unumz
+e8d3d5d14c1b   alpine:latest   "ping 8.8.8.8"   9 minutes ago        Up 9 minutes                  objective_napier.1.pgzj6htydchppx43gn22yayhr
+ubuntu@ip-172-31-7-255:~$ docker container ls
+CONTAINER ID   IMAGE           COMMAND          CREATED              STATUS              PORTS     NAMES
+cdc7523561e5   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.5.m4d4qilyk4b3fwddg3shz0p5s
+06a1d0e1c4ca   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.8.0zynt8ywu8i78qc8g0kyeranx
+9f6f4cc1423e   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.6.6vham8tcg2i3xont1cf0s7oor
+16e4b3801c6a   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.11.e3ttk1x1i0jw6sz8hxe8wvxol
+9f9b7abcfd00   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.20.8nvk82wcucl6116w198hk9b75
+58d9c6ef12ec   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.13.jflj0ydo56v18m900co3zbxg9
+814debd1796e   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.15.2vn16e30jjvfxrisvsf6z8fu3
+8733fe20da75   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.17.cnbvsyq9c0kmcrhkgij0a9ees
+95287aec0315   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.7.ihrq9q2d7eiuyalrhwvcy379d
+bb29f0f1e657   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.12.jvbebz9iikocrk2kmoxjftcbz
+dfef9737c656   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.16.ot3mzf5vxzjjdaih49vy825pf
+d06ce3d9e1cc   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.4.kl40tk7mpbsyth4rbgpctwz29
+043c2e2f6eb2   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.19.n0wa6zvc4fez7h6pz3h0lemd9
+1d52bb58b67b   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.18.rt8wa1mbv6uv56fkk01p0ju7x
+529bdf69f519   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.9.owtwpz9if88l7c6nnvwy9ap0o
+d0cafa26d018   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.10.ll2z5k7j7moxmu286sd8xz5js
+8fb5ba2b9f44   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.14.n32z3xiztje52c8fbxqhd6yck
+5ebbcb74c750   alpine:latest   "ping 8.8.8.8"   3 minutes ago        Up 3 minutes                  objective_napier.3.pd55tkgejc6cnx1u8dmmx3v9s
+b9ab3383e455   alpine:latest   "ping 8.8.8.8"   4 minutes ago        Up 4 minutes                  objective_napier.2.miz56rfi5eoqgz1n1xk3unumz
+e8d3d5d14c1b   alpine:latest   "ping 8.8.8.8"   9 minutes ago        Up 9 minutes                  objective_napier.1.pgzj6htydchppx43gn22yayhr
+ubuntu@ip-172-31-7-255:~$ docker container ls
+CONTAINER ID   IMAGE           COMMAND          CREATED              STATUS              PORTS     NAMES
+06a1d0e1c4ca   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.8.0zynt8ywu8i78qc8g0kyeranx
+9f6f4cc1423e   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.6.6vham8tcg2i3xont1cf0s7oor
+16e4b3801c6a   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.11.e3ttk1x1i0jw6sz8hxe8wvxol
+9f9b7abcfd00   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.20.8nvk82wcucl6116w198hk9b75
+814debd1796e   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.15.2vn16e30jjvfxrisvsf6z8fu3
+95287aec0315   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.7.ihrq9q2d7eiuyalrhwvcy379d
+bb29f0f1e657   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.12.jvbebz9iikocrk2kmoxjftcbz
+dfef9737c656   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.16.ot3mzf5vxzjjdaih49vy825pf
+d06ce3d9e1cc   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.4.kl40tk7mpbsyth4rbgpctwz29
+1d52bb58b67b   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.18.rt8wa1mbv6uv56fkk01p0ju7x
+529bdf69f519   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.9.owtwpz9if88l7c6nnvwy9ap0o
+8fb5ba2b9f44   alpine:latest   "ping 8.8.8.8"   About a minute ago   Up About a minute             objective_napier.14.n32z3xiztje52c8fbxqhd6yck
+b9ab3383e455   alpine:latest   "ping 8.8.8.8"   4 minutes ago        Up 4 minutes                  objective_napier.2.miz56rfi5eoqgz1n1xk3unumz
+e8d3d5d14c1b   alpine:latest   "ping 8.8.8.8"   10 minutes ago       Up 10 minutes                 objective_napier.1.pgzj6htydchppx43gn22yayhr
+ubuntu@ip-172-31-7-255:~$ docker container ls
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+ubuntu@ip-172-31-7-255:~$

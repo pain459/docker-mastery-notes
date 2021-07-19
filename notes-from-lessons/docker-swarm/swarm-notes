@@ -1,0 +1,144 @@
+# To check the status of swarm use 'docker info' and see swarm status.
+
+ubuntu@ip-172-31-7-255:~$ docker info
+Client:
+ Context:    default
+ Debug Mode: false
+ Plugins:
+  app: Docker App (Docker Inc., v0.9.1-beta3)
+  buildx: Build with BuildKit (Docker Inc., v0.5.1-docker)
+
+Server:
+ Containers: 0
+  Running: 0
+  Paused: 0
+  Stopped: 0
+ Images: 1
+ Server Version: 20.10.7
+ Storage Driver: overlay2
+  Backing Filesystem: extfs
+  Supports d_type: true
+  Native Overlay Diff: true
+  userxattr: false
+ Logging Driver: json-file
+ Cgroup Driver: cgroupfs
+ Cgroup Version: 1
+ Plugins:
+  Volume: local
+  Network: bridge host ipvlan macvlan null overlay
+  Log: awslogs fluentd gcplogs gelf journald json-file local logentries splunk syslog
+ Swarm: inactive
+ Runtimes: runc io.containerd.runc.v2 io.containerd.runtime.v1.linux
+ Default Runtime: runc
+ Init Binary: docker-init
+ containerd version: d71fcd7d8303cbf684402823e425e9dd2e99285d
+ runc version: b9ee9c6314599f1b4a7f497e1f1f856fe433d3b7
+ init version: de40ad0
+ Security Options:
+  apparmor
+  seccomp
+   Profile: default
+ Kernel Version: 5.8.0-1038-aws
+ Operating System: Ubuntu 20.04.2 LTS
+ OSType: linux
+ Architecture: x86_64
+ CPUs: 2
+ Total Memory: 3.841GiB
+ Name: ip-172-31-7-255
+ ID: KQ7Y:3OQI:DA7G:RHCH:DHZJ:MNUY:PJAA:3A6K:ESFM:PLNE:UKQJ:7CR5
+ Docker Root Dir: /var/lib/docker
+ Debug Mode: false
+ Username: ravikumarpidintla
+ Registry: https://index.docker.io/v1/
+ Labels:
+ Experimental: false
+ Insecure Registries:
+  127.0.0.0/8
+ Live Restore Enabled: false
+
+ubuntu@ip-172-31-7-255:~$
+
+----
+
+# to enable swarm you have to initiate the swarm. Process below.
+
+ubuntu@ip-172-31-7-255:~$ docker swarm init
+Swarm initialized: current node (fz6n3zconz9keiag01u3w5nxf) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-4n9h20dmr8ndb0lh8vsyo6tcrd27vv3aqyncn3xk4jlv43xsgy-3koqebef45a58jsuqd6a8je9f 172.31.7.255:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+ubuntu@ip-172-31-7-255:~$
+
+----
+
+# Playing with some more commands and understanding capabilities.
+
+ubuntu@ip-172-31-7-255:~$ docker node ls
+ID                            HOSTNAME          STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+fz6n3zconz9keiag01u3w5nxf *   ip-172-31-7-255   Ready     Active         Leader           20.10.7
+ubuntu@ip-172-31-7-255:~$ docker node --help
+
+Usage:  docker node COMMAND
+
+Manage Swarm nodes
+
+Commands:
+  demote      Demote one or more nodes from manager in the swarm
+  inspect     Display detailed information on one or more nodes
+  ls          List nodes in the swarm
+  promote     Promote one or more nodes to manager in the swarm
+  ps          List tasks running on one or more nodes, defaults to current node
+  rm          Remove one or more nodes from the swarm
+  update      Update a node
+
+Run 'docker node COMMAND --help' for more information on a command.
+ubuntu@ip-172-31-7-255:~$ docker swarm --help
+
+Usage:  docker swarm COMMAND
+
+Manage Swarm
+
+Commands:
+  ca          Display and rotate the root CA
+  init        Initialize a swarm
+  join        Join a swarm as a node and/or manager
+  join-token  Manage join tokens
+  leave       Leave the swarm
+  unlock      Unlock swarm
+  unlock-key  Manage the unlock key
+  update      Update the swarm
+
+Run 'docker swarm COMMAND --help' for more information on a command.
+ubuntu@ip-172-31-7-255:~$
+
+----
+
+ubuntu@ip-172-31-7-255:~$ docker service --help
+
+Usage:  docker service COMMAND
+
+Manage services
+
+Commands:
+  create      Create a new service
+  inspect     Display detailed information on one or more services
+  logs        Fetch the logs of a service or task
+  ls          List services
+  ps          List the tasks of one or more services
+  rm          Remove one or more services
+  rollback    Revert changes to a service's configuration
+  scale       Scale one or multiple replicated services
+  update      Update a service
+
+Run 'docker service COMMAND --help' for more information on a command.
+ubuntu@ip-172-31-7-255:~$
+
+docker service replaces docker run in swarm mode.
+
+-----
+
+docker swarm <keyword> --help --> This will unlock a whole new world of the commands in orchestration engine.

@@ -1,0 +1,92 @@
+# Created 3 hosts under AWS. Now we will create a 3 node cluster and experiment on the rest of the commands.
+
+ubuntu@ip-172-31-7-255:~$ docker swarm status
+
+Usage:  docker swarm COMMAND
+
+Manage Swarm
+
+Commands:
+  ca          Display and rotate the root CA
+  init        Initialize a swarm
+  join        Join a swarm as a node and/or manager
+  join-token  Manage join tokens
+  leave       Leave the swarm
+  unlock      Unlock swarm
+  unlock-key  Manage the unlock key
+  update      Update the swarm
+
+Run 'docker swarm COMMAND --help' for more information on a command.
+ubuntu@ip-172-31-7-255:~$ docker swarm init
+Error response from daemon: This node is already part of a swarm. Use "docker swarm leave" to leave this swarm and join another one.
+ubuntu@ip-172-31-7-255:~$ docker swarm leave
+Error response from daemon: You are attempting to leave the swarm on a node that is participating as a manager. Removing the last manager erases all current state of the swarm. Use `--force` to ignore this message.
+ubuntu@ip-172-31-7-255:~$ docker swarm leave --force
+Node left the swarm.
+ubuntu@ip-172-31-7-255:~$ docker swarm init
+Swarm initialized: current node (zn3pstbp7obd8gl104dlj8iss) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-3ebwxv6jjfc1uims6eyaeb9w48dl9gej02skzq3p6ddteosu0m-c0x4pet8gava4qdj9hna1lgll 172.31.7.255:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+ubuntu@ip-172-31-7-255:~$ docker node ls
+ID                            HOSTNAME          STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+xpsqhp9uy4xixsmp8889bs218     ip-172-31-7-206   Ready     Active                          20.10.7
+zn3pstbp7obd8gl104dlj8iss *   ip-172-31-7-255   Ready     Active         Leader           20.10.7
+ubuntu@ip-172-31-7-255:~$ docker node update --role manager ip-172-31-7-206
+ip-172-31-7-206
+ubuntu@ip-172-31-7-255:~$ docker node ls
+ID                            HOSTNAME          STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+xpsqhp9uy4xixsmp8889bs218     ip-172-31-7-206   Ready     Active         Reachable        20.10.7
+zn3pstbp7obd8gl104dlj8iss *   ip-172-31-7-255   Ready     Active         Leader           20.10.7
+ubuntu@ip-172-31-7-255:~$
+
+# To add the node as manager by default, execute the command below on the current leader and then obtain the same.
+
+ubuntu@ip-172-31-7-255:~$ docker swarm join-token manager
+To add a manager to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-3ebwxv6jjfc1uims6eyaeb9w48dl9gej02skzq3p6ddteosu0m-7y29u32pb30yil4z774abudm6 172.31.7.255:2377
+
+ubuntu@ip-172-31-7-255:~$
+
+# After executing the above command on the third server, you can verify the node ls command and get the data as below.
+
+ubuntu@ip-172-31-7-255:~$ docker node ls
+ID                            HOSTNAME          STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+xpsqhp9uy4xixsmp8889bs218     ip-172-31-7-206   Ready     Active         Reachable        20.10.7
+zn3pstbp7obd8gl104dlj8iss *   ip-172-31-7-255   Ready     Active         Leader           20.10.7
+seasznlrex58pgrgwajdrjjkl     ip-172-31-13-20   Ready     Active         Reachable        20.10.7
+ubuntu@ip-172-31-7-255:~$
+
+-- Now lets create the service alpine on the grid as usual and see the outputs.
+
+ubuntu@ip-172-31-7-255:~$ docker service create --replicas 6 alpine ping 8.8.8.8
+yol6168u4a598ni8e1var2dw7
+overall progress: 6 out of 6 tasks
+1/6: running   [==================================================>]
+2/6: running   [==================================================>]
+3/6: running   [==================================================>]
+4/6: running   [==================================================>]
+5/6: running   [==================================================>]
+6/6: running   [==================================================>]
+verify: Service converged
+ubuntu@ip-172-31-7-255:~$ docker container ls
+CONTAINER ID   IMAGE           COMMAND          CREATED          STATUS          PORTS     NAMES
+d0ea4fc09e87   alpine:latest   "ping 8.8.8.8"   17 seconds ago   Up 16 seconds             eloquent_noether.4.mtiv6dlw5mw4p9rfvkkvoxgh7
+4cb61f89c24d   alpine:latest   "ping 8.8.8.8"   17 seconds ago   Up 16 seconds             eloquent_noether.1.yseu5mo2jkkm9uh1yswy5kqt1
+ubuntu@ip-172-31-7-255:~$ docker service ls
+ID             NAME               MODE         REPLICAS   IMAGE           PORTS
+yol6168u4a59   eloquent_noether   replicated   6/6        alpine:latest
+ubuntu@ip-172-31-7-255:~$ docker service ps yol6168u4a59
+ID             NAME                 IMAGE           NODE              DESIRED STATE   CURRENT STATE            ERROR     PORTS
+yseu5mo2jkkm   eloquent_noether.1   alpine:latest   ip-172-31-7-255   Running         Running 51 seconds ago
+wlkml5vmotct   eloquent_noether.2   alpine:latest   ip-172-31-7-206   Running         Running 47 seconds ago
+yx0e3jw7utyp   eloquent_noether.3   alpine:latest   ip-172-31-13-20   Running         Running 47 seconds ago
+mtiv6dlw5mw4   eloquent_noether.4   alpine:latest   ip-172-31-7-255   Running         Running 51 seconds ago
+70j7m3cxjqej   eloquent_noether.5   alpine:latest   ip-172-31-7-206   Running         Running 46 seconds ago
+srcwel4o5lbc   eloquent_noether.6   alpine:latest   ip-172-31-13-20   Running         Running 47 seconds ago
+ubuntu@ip-172-31-7-255:~$
