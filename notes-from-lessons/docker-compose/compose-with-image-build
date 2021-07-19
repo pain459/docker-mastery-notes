@@ -1,0 +1,49 @@
+# This example is to create the image while bringing up the containers.
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/compose-sample-3$ docker-compose up
+Creating network "compose-sample-3_default" with the default driver
+Building proxy
+Sending build context to Docker daemon  3.945MB
+Step 1/2 : FROM nginx:1.13
+1.13: Pulling from library/nginx
+f2aa67a397c4: Pull complete
+3c091c23e29d: Pull complete
+4a99993b8636: Pull complete
+Digest: sha256:b1d09e9718890e6ebbbd2bc319ef1611559e30ce1b6f56b2e3b479d9da51dc35
+Status: Downloaded newer image for nginx:1.13
+ ---> ae513a47849c
+Step 2/2 : COPY nginx.conf /etc/nginx/conf.d/default.conf
+ ---> d0656035ebcc
+Successfully built d0656035ebcc
+Successfully tagged compose-sample-3_proxy:latest
+WARNING: Image for service proxy was built because it did not already exist. To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.
+Pulling web (httpd:)...
+latest: Pulling from library/httpd
+b4d181a07f80: Pull complete
+4b72f5187e6e: Pull complete
+12b2c44d04b2: Pull complete
+35c238b46d30: Pull complete
+1adcec05f52b: Pull complete
+Digest: sha256:1fd07d599a519b594b756d2e4e43a72edf7e30542ce646f5eb3328cf3b12341a
+Status: Downloaded newer image for httpd:latest
+Creating compose-sample-3_web_1   ... done
+Creating compose-sample-3_proxy_1 ... done
+Attaching to compose-sample-3_proxy_1, compose-sample-3_web_1
+web_1    | AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.18.0.3. Set the 'ServerName' directive globally to suppress this message
+web_1    | AH00558: httpd: Could not reliably determine the server's fully qualified domain name, using 172.18.0.3. Set the 'ServerName' directive globally to suppress this message
+web_1    | [Mon Jul 19 09:38:54.634377 2021] [mpm_event:notice] [pid 1:tid 140614019585152] AH00489: Apache/2.4.48 (Unix) configured -- resuming normal operations
+web_1    | [Mon Jul 19 09:38:54.634519 2021] [core:notice] [pid 1:tid 140614019585152] AH00094: Command line: 'httpd -D FOREGROUND'
+proxy_1  | 115.112.81.241 - - [19/Jul/2021:09:39:07 +0000] "GET / HTTP/1.1" 200 35099 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36" "-"
+web_1    | 172.18.0.2 - - [19/Jul/2021:09:39:07 +0000] "GET / HTTP/1.0" 200 35099
+web_1    | 172.18.0.2 - - [19/Jul/2021:09:39:10 +0000] "GET /lib/bootstrap/css/bootstrap.min.css HTTP/1.0" 200 150996
+.
+.
+.
+proxy_1  | 115.112.81.241 - - [19/Jul/2021:09:39:11 +0000] "GET /img/portfolio/04-full.jpg HTTP/1.1" 200 41247 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36" "-"
+proxy_1  | 115.112.81.241 - - [19/Jul/2021:09:39:11 +0000] "GET /img/map-image.png HTTP/1.1" 200 364038 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com/css/agency.min.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36" "-"
+proxy_1  | 115.112.81.241 - - [19/Jul/2021:09:39:11 +0000] "GET /favicon.ico HTTP/1.1" 404 196 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36" "-"
+web_1    | 172.18.0.2 - - [19/Jul/2021:09:39:11 +0000] "GET /favicon.ico HTTP/1.0" 404 196
+^CGracefully stopping... (press Ctrl+C again to force)
+Stopping compose-sample-3_proxy_1 ... done
+Stopping compose-sample-3_web_1   ... done
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/compose-sample-3$

@@ -1,0 +1,1240 @@
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/compose-assignment-2$ docker-compose up
+Creating network "compose-assignment-2_default" with the default driver
+Creating volume "compose-assignment-2_drupal-modules" with default driver
+Creating volume "compose-assignment-2_drupal-profiles" with default driver
+Creating volume "compose-assignment-2_drupal-sites" with default driver
+Creating volume "compose-assignment-2_drupal-themes" with default driver
+Creating volume "compose-assignment-2_drupal-data" with default driver
+Building drupal1
+Sending build context to Docker daemon  11.26kB
+Step 1/5 : FROM drupal:8.8.2
+8.8.2: Pulling from library/drupal
+6d28e14ab8c8: Pull complete
+9ecd958eae23: Pull complete
+4611cd46d612: Pull complete
+ad4a2514121d: Pull complete
+0b5e20585113: Pull complete
+41449f0f405d: Pull complete
+8ac46b57a971: Pull complete
+fbb79e9a209f: Pull complete
+2bbaf0b0b4e6: Pull complete
+f2eb2245bea2: Pull complete
+341ead679d30: Pull complete
+f57261f4f556: Pull complete
+36f9693fb790: Pull complete
+275c43c6b7cd: Pull complete
+a3cddf097b5e: Pull complete
+fad623710654: Pull complete
+Digest: sha256:a98fc1f914fdbfa68ec229a4f47e8d278b2cca9ed81cad488d742ffb69133131
+Status: Downloaded newer image for drupal:8.8.2
+ ---> 090e3f252532
+Step 2/5 : RUN apt-get update   && apt-get install -y git   && rm -rf /var/lib/apt/lists/*
+ ---> Running in eb711de73607
+Get:1 http://security.debian.org/debian-security stretch/updates InRelease [53.0 kB]
+Ign:2 http://deb.debian.org/debian stretch InRelease
+Get:3 http://deb.debian.org/debian stretch-updates InRelease [93.6 kB]
+Get:4 http://security.debian.org/debian-security buster/updates InRelease [65.4 kB]
+Get:5 http://deb.debian.org/debian buster InRelease [122 kB]
+Get:6 http://security.debian.org/debian-security stretch/updates/main amd64 Packages [701 kB]
+Get:7 http://deb.debian.org/debian buster-updates InRelease [51.9 kB]
+Get:8 http://deb.debian.org/debian stretch Release [118 kB]
+Get:9 http://deb.debian.org/debian stretch Release.gpg [2410 B]
+Get:10 http://security.debian.org/debian-security buster/updates/main amd64 Packages [293 kB]
+Get:11 http://deb.debian.org/debian buster/main amd64 Packages [7907 kB]
+Get:12 http://deb.debian.org/debian buster-updates/main amd64 Packages [15.2 kB]
+Get:13 http://deb.debian.org/debian stretch/main amd64 Packages [7080 kB]
+Fetched 16.5 MB in 2s (5819 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  git-man less libcurl3-gnutls liberror-perl libpopt0 libx11-6 libx11-data
+  libxau6 libxcb1 libxdmcp6 libxext6 libxmuu1 openssh-client rsync xauth
+Suggested packages:
+  gettext-base git-daemon-run | git-daemon-sysvinit git-doc git-el git-email
+  git-gui gitk gitweb git-arch git-cvs git-mediawiki git-svn keychain
+  libpam-ssh monkeysphere ssh-askpass openssh-server
+The following NEW packages will be installed:
+  git git-man less libcurl3-gnutls liberror-perl libpopt0 libx11-6 libx11-data
+  libxau6 libxcb1 libxdmcp6 libxext6 libxmuu1 openssh-client rsync xauth
+0 upgraded, 16 newly installed, 0 to remove and 42 not upgraded.
+Need to get 8611 kB of archives.
+After this operation, 41.2 MB of additional disk space will be used.
+Get:1 http://deb.debian.org/debian stretch/main amd64 liberror-perl all 0.17024-1 [26.9 kB]
+Get:2 http://security.debian.org/debian-security stretch/updates/main amd64 libcurl3-gnutls amd64 7.52.1-5+deb9u14 [296 kB]
+Get:3 http://deb.debian.org/debian stretch/main amd64 git-man all 1:2.11.0-3+deb9u7 [1436 kB]
+Get:4 http://security.debian.org/debian-security stretch/updates/main amd64 libx11-data all 2:1.6.4-3+deb9u4 [291 kB]
+Get:5 http://deb.debian.org/debian stretch/main amd64 git amd64 1:2.11.0-3+deb9u7 [4170 kB]
+Get:6 http://security.debian.org/debian-security stretch/updates/main amd64 libx11-6 amd64 2:1.6.4-3+deb9u4 [748 kB]
+Get:7 http://deb.debian.org/debian stretch/main amd64 libxau6 amd64 1:1.0.8-1 [20.7 kB]
+Get:8 http://deb.debian.org/debian stretch/main amd64 libpopt0 amd64 1.16-10+b2 [49.4 kB]
+Get:9 http://deb.debian.org/debian stretch/main amd64 less amd64 481-2.1 [126 kB]
+Get:10 http://deb.debian.org/debian stretch/main amd64 openssh-client amd64 1:7.4p1-10+deb9u7 [780 kB]
+Get:11 http://deb.debian.org/debian stretch/main amd64 libxdmcp6 amd64 1:1.1.2-3 [26.3 kB]
+Get:12 http://deb.debian.org/debian stretch/main amd64 libxcb1 amd64 1.12-1 [133 kB]
+Get:13 http://deb.debian.org/debian stretch/main amd64 libxext6 amd64 2:1.3.3-1+b2 [52.5 kB]
+Get:14 http://deb.debian.org/debian stretch/main amd64 libxmuu1 amd64 2:1.1.2-2 [23.5 kB]
+Get:15 http://deb.debian.org/debian stretch/main amd64 rsync amd64 3.1.2-1+deb9u2 [393 kB]
+Get:16 http://deb.debian.org/debian stretch/main amd64 xauth amd64 1:1.0.9-1+b2 [39.6 kB]
+debconf: delaying package configuration, since apt-utils is not installed
+Fetched 8611 kB in 0s (84.7 MB/s)
+Selecting previously unselected package libcurl3-gnutls:amd64.
+(Reading database ... 13173 files and directories currently installed.)
+Preparing to unpack .../00-libcurl3-gnutls_7.52.1-5+deb9u14_amd64.deb ...
+Unpacking libcurl3-gnutls:amd64 (7.52.1-5+deb9u14) ...
+Selecting previously unselected package liberror-perl.
+Preparing to unpack .../01-liberror-perl_0.17024-1_all.deb ...
+Unpacking liberror-perl (0.17024-1) ...
+Selecting previously unselected package git-man.
+Preparing to unpack .../02-git-man_1%3a2.11.0-3+deb9u7_all.deb ...
+Unpacking git-man (1:2.11.0-3+deb9u7) ...
+Selecting previously unselected package git.
+Preparing to unpack .../03-git_1%3a2.11.0-3+deb9u7_amd64.deb ...
+Unpacking git (1:2.11.0-3+deb9u7) ...
+Selecting previously unselected package libxau6:amd64.
+Preparing to unpack .../04-libxau6_1%3a1.0.8-1_amd64.deb ...
+Unpacking libxau6:amd64 (1:1.0.8-1) ...
+Selecting previously unselected package libpopt0:amd64.
+Preparing to unpack .../05-libpopt0_1.16-10+b2_amd64.deb ...
+Unpacking libpopt0:amd64 (1.16-10+b2) ...
+Selecting previously unselected package less.
+Preparing to unpack .../06-less_481-2.1_amd64.deb ...
+Unpacking less (481-2.1) ...
+Selecting previously unselected package openssh-client.
+Preparing to unpack .../07-openssh-client_1%3a7.4p1-10+deb9u7_amd64.deb ...
+Unpacking openssh-client (1:7.4p1-10+deb9u7) ...
+Selecting previously unselected package libxdmcp6:amd64.
+Preparing to unpack .../08-libxdmcp6_1%3a1.1.2-3_amd64.deb ...
+Unpacking libxdmcp6:amd64 (1:1.1.2-3) ...
+Selecting previously unselected package libxcb1:amd64.
+Preparing to unpack .../09-libxcb1_1.12-1_amd64.deb ...
+Unpacking libxcb1:amd64 (1.12-1) ...
+Selecting previously unselected package libx11-data.
+Preparing to unpack .../10-libx11-data_2%3a1.6.4-3+deb9u4_all.deb ...
+Unpacking libx11-data (2:1.6.4-3+deb9u4) ...
+Selecting previously unselected package libx11-6:amd64.
+Preparing to unpack .../11-libx11-6_2%3a1.6.4-3+deb9u4_amd64.deb ...
+Unpacking libx11-6:amd64 (2:1.6.4-3+deb9u4) ...
+Selecting previously unselected package libxext6:amd64.
+Preparing to unpack .../12-libxext6_2%3a1.3.3-1+b2_amd64.deb ...
+Unpacking libxext6:amd64 (2:1.3.3-1+b2) ...
+Selecting previously unselected package libxmuu1:amd64.
+Preparing to unpack .../13-libxmuu1_2%3a1.1.2-2_amd64.deb ...
+Unpacking libxmuu1:amd64 (2:1.1.2-2) ...
+Selecting previously unselected package rsync.
+Preparing to unpack .../14-rsync_3.1.2-1+deb9u2_amd64.deb ...
+Unpacking rsync (3.1.2-1+deb9u2) ...
+Selecting previously unselected package xauth.
+Preparing to unpack .../15-xauth_1%3a1.0.9-1+b2_amd64.deb ...
+Unpacking xauth (1:1.0.9-1+b2) ...
+Setting up git-man (1:2.11.0-3+deb9u7) ...
+Setting up libpopt0:amd64 (1.16-10+b2) ...
+Setting up less (481-2.1) ...
+debconf: unable to initialize frontend: Dialog
+debconf: (TERM is not set, so the dialog frontend is not usable.)
+debconf: falling back to frontend: Readline
+Processing triggers for mime-support (3.60) ...
+Setting up liberror-perl (0.17024-1) ...
+Setting up libcurl3-gnutls:amd64 (7.52.1-5+deb9u14) ...
+Setting up rsync (3.1.2-1+deb9u2) ...
+invoke-rc.d: could not determine current runlevel
+invoke-rc.d: policy-rc.d denied execution of restart.
+Processing triggers for libc-bin (2.24-11+deb9u4) ...
+Setting up libxdmcp6:amd64 (1:1.1.2-3) ...
+Setting up openssh-client (1:7.4p1-10+deb9u7) ...
+Setting up git (1:2.11.0-3+deb9u7) ...
+Setting up libx11-data (2:1.6.4-3+deb9u4) ...
+Setting up libxau6:amd64 (1:1.0.8-1) ...
+Setting up libxcb1:amd64 (1.12-1) ...
+Setting up libx11-6:amd64 (2:1.6.4-3+deb9u4) ...
+Setting up libxmuu1:amd64 (2:1.1.2-2) ...
+Setting up libxext6:amd64 (2:1.3.3-1+b2) ...
+Setting up xauth (1:1.0.9-1+b2) ...
+Processing triggers for libc-bin (2.24-11+deb9u4) ...
+Removing intermediate container eb711de73607
+ ---> 414940fd9763
+Step 3/5 : WORKDIR /var/www/html/themes
+ ---> Running in 849e61ab8c61
+Removing intermediate container 849e61ab8c61
+ ---> 207d5b757b90
+Step 4/5 : RUN git clone --branch 8.x-3.x --single-branch --depth 1 https://git.drupalcode.org/project/bootstrap.git   && chown -R www-data:www-data bootstrap
+ ---> Running in 7612299c4c21
+Cloning into 'bootstrap'...
+Removing intermediate container 7612299c4c21
+ ---> d0139a7d35a6
+Step 5/5 : WORKDIR /var/www/html
+ ---> Running in 78c4a338cf17
+Removing intermediate container 78c4a338cf17
+ ---> 187e970e50a4
+Successfully built 187e970e50a4
+Successfully tagged drupal-custom:latest
+WARNING: Image for service drupal1 was built because it did not already exist. To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.
+Pulling postgres1 (postgres:12.1)...
+12.1: Pulling from library/postgres
+bc51dd8edc1b: Pull complete
+d2b355dbb6c6: Pull complete
+d237363a1a91: Pull complete
+ff4b9d2fde66: Pull complete
+646492d166e7: Pull complete
+50eeac6fd5fb: Pull complete
+502963de6da8: Pull complete
+d7263f7627b9: Pull complete
+46b135c7e429: Pull complete
+259a29a883ed: Pull complete
+b3b8f133c3f4: Pull complete
+49e91678bd48: Pull complete
+15326bd3db00: Pull complete
+0aab6409ca4d: Pull complete
+Digest: sha256:5181eccc7c903e4f1beffa89a735cb7ed72e0c81d6c34c471552c3fa8bff0858
+Status: Downloaded newer image for postgres:12.1
+Creating compose-assignment-2_drupal1_1   ... done
+Creating compose-assignment-2_postgres1_1 ... done
+Attaching to compose-assignment-2_postgres1_1, compose-assignment-2_drupal1_1
+postgres1_1  | The files belonging to this database system will be owned by user "postgres".
+postgres1_1  | This user must also own the server process.
+postgres1_1  |
+postgres1_1  | The database cluster will be initialized with locale "en_US.utf8".
+postgres1_1  | The default database encoding has accordingly been set to "UTF8".
+postgres1_1  | The default text search configuration will be set to "english".
+postgres1_1  |
+postgres1_1  | Data page checksums are disabled.
+postgres1_1  |
+postgres1_1  | fixing permissions on existing directory /var/lib/postgresql/data ... ok
+postgres1_1  | creating subdirectories ... ok
+postgres1_1  | selecting dynamic shared memory implementation ... posix
+postgres1_1  | selecting default max_connections ... 100
+postgres1_1  | selecting default shared_buffers ... 128MB
+postgres1_1  | selecting default time zone ... Etc/UTC
+postgres1_1  | creating configuration files ... ok
+drupal1_1    | AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.20.0.3. Set the 'ServerName' directive globally to suppress this message
+drupal1_1    | AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.20.0.3. Set the 'ServerName' directive globally to suppress this message
+drupal1_1    | [Mon Jul 19 12:07:35.194532 2021] [mpm_prefork:notice] [pid 1] AH00163: Apache/2.4.25 (Debian) PHP/7.3.15 configured -- resuming normal operations
+drupal1_1    | [Mon Jul 19 12:07:35.194596 2021] [core:notice] [pid 1] AH00094: Command line: 'apache2 -D FOREGROUND'
+postgres1_1  | running bootstrap script ... ok
+postgres1_1  | performing post-bootstrap initialization ... ok
+postgres1_1  | syncing data to disk ... ok
+postgres1_1  |
+postgres1_1  |
+postgres1_1  | Success. You can now start the database server using:
+postgres1_1  |
+postgres1_1  |     pg_ctl -D /var/lib/postgresql/data -l logfile start
+postgres1_1  |
+postgres1_1  | initdb: warning: enabling "trust" authentication for local connections
+postgres1_1  | You can change this by editing pg_hba.conf or using the option -A, or
+postgres1_1  | --auth-local and --auth-host, the next time you run initdb.
+postgres1_1  | waiting for server to start....2021-07-19 12:07:35.896 UTC [45] LOG:  starting PostgreSQL 12.1 (Debian 12.1-1.pgdg100+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 8.3.0-6) 8.3.0, 64-bit
+postgres1_1  | 2021-07-19 12:07:35.898 UTC [45] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+postgres1_1  | 2021-07-19 12:07:35.918 UTC [46] LOG:  database system was shut down at 2021-07-19 12:07:35 UTC
+postgres1_1  | 2021-07-19 12:07:35.923 UTC [45] LOG:  database system is ready to accept connections
+postgres1_1  |  done
+postgres1_1  | server started
+postgres1_1  |
+postgres1_1  | /usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*
+postgres1_1  |
+postgres1_1  | 2021-07-19 12:07:35.986 UTC [45] LOG:  received fast shutdown request
+postgres1_1  | waiting for server to shut down....2021-07-19 12:07:35.988 UTC [45] LOG:  aborting any active transactions
+postgres1_1  | 2021-07-19 12:07:35.990 UTC [45] LOG:  background worker "logical replication launcher" (PID 52) exited with exit code 1
+postgres1_1  | 2021-07-19 12:07:35.991 UTC [47] LOG:  shutting down
+postgres1_1  | 2021-07-19 12:07:36.008 UTC [45] LOG:  database system is shut down
+postgres1_1  |  done
+postgres1_1  | server stopped
+postgres1_1  |
+postgres1_1  | PostgreSQL init process complete; ready for start up.
+postgres1_1  |
+postgres1_1  | 2021-07-19 12:07:36.101 UTC [1] LOG:  starting PostgreSQL 12.1 (Debian 12.1-1.pgdg100+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 8.3.0-6) 8.3.0, 64-bit
+postgres1_1  | 2021-07-19 12:07:36.101 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+postgres1_1  | 2021-07-19 12:07:36.102 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+postgres1_1  | 2021-07-19 12:07:36.106 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+postgres1_1  | 2021-07-19 12:07:36.123 UTC [54] LOG:  database system was shut down at 2021-07-19 12:07:35 UTC
+postgres1_1  | 2021-07-19 12:07:36.129 UTC [1] LOG:  database system is ready to accept connections
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:25 +0000] "GET / HTTP/1.1" 302 609 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/install.php HTTP/1.1" 200 4310 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/misc/normalize-fixes.css?0 HTTP/1.1" 200 534 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/assets/vendor/normalize-css/normalize.css?0 HTTP/1.1" 200 2916 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/themes/stable/css/system/components/ajax-progress.module.css?0 HTTP/1.1" 200 817 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/themes/stable/css/system/components/align.module.css?0 HTTP/1.1" 200 552 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/themes/stable/css/system/components/autocomplete-loading.module.css?0 HTTP/1.1" 200 587 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/themes/stable/css/system/components/fieldgroup.module.css?0 HTTP/1.1" 200 429 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/themes/stable/css/system/components/container-inline.module.css?0 HTTP/1.1" 200 488 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/themes/stable/css/system/components/clearfix.module.css?0 HTTP/1.1" 200 556 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/themes/stable/css/system/components/details.module.css?0 HTTP/1.1" 200 455 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/themes/stable/css/system/components/hidden.module.css?0 HTTP/1.1" 200 984 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/themes/stable/css/system/components/item-list.module.css?0 HTTP/1.1" 200 489 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/themes/stable/css/system/components/js.module.css?0 HTTP/1.1" 200 567 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/themes/stable/css/system/components/nowrap.module.css?0 HTTP/1.1" 200 438 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/themes/stable/css/system/components/position-container.module.css?0 HTTP/1.1" 200 427 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/themes/stable/css/system/components/progress.module.css?0 HTTP/1.1" 200 687 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/themes/stable/css/system/components/reset-appearance.module.css?0 HTTP/1.1" 200 524 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/themes/stable/css/system/components/resize.module.css?0 HTTP/1.1" 200 490 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/themes/stable/css/system/components/sticky-header.module.css?0 HTTP/1.1" 200 478 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/themes/stable/css/system/components/tablesort.module.css?0 HTTP/1.1" 200 547 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/themes/stable/css/system/components/tabledrag.module.css?0 HTTP/1.1" 200 971 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/themes/stable/css/system/components/tree-child.module.css?0 HTTP/1.1" 200 558 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/themes/stable/css/system/system.maintenance.css?0 HTTP/1.1" 200 746 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/themes/stable/css/system/system.admin.css?0 HTTP/1.1" 200 2336 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:26 +0000] "GET /core/themes/seven/css/base/elements.css?0 HTTP/1.1" 200 1279 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/base/typography.css?0 HTTP/1.1" 200 588 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/base/print.css?0 HTTP/1.1" 200 955 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/layout/layout.css?0 HTTP/1.1" 200 487 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/classy/css/components/action-links.css?0 HTTP/1.1" 200 698 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/classy/css/components/breadcrumb.css?0 HTTP/1.1" 200 615 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/classy/css/components/button.css?0 HTTP/1.1" 200 469 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/classy/css/components/container-inline.css?0 HTTP/1.1" 200 517 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/classy/css/components/collapse-processed.css?0 HTTP/1.1" 200 667 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/classy/css/components/exposed-filters.css?0 HTTP/1.1" 200 638 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/classy/css/components/field.css?0 HTTP/1.1" 200 545 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/classy/css/components/form.css?0 HTTP/1.1" 200 1116 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/classy/css/components/icons.css?0 HTTP/1.1" 200 602 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/classy/css/components/inline-form.css?0 HTTP/1.1" 200 627 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/classy/css/components/item-list.css?0 HTTP/1.1" 200 586 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/classy/css/components/links.css?0 HTTP/1.1" 200 544 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/classy/css/components/link.css?0 HTTP/1.1" 200 503 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/classy/css/components/menu.css?0 HTTP/1.1" 200 630 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/classy/css/components/more-link.css?0 HTTP/1.1" 200 485 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/classy/css/components/pager.css?0 HTTP/1.1" 200 494 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/classy/css/components/tabledrag.css?0 HTTP/1.1" 200 492 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/classy/css/components/tableselect.css?0 HTTP/1.1" 200 530 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/classy/css/components/tablesort.css?0 HTTP/1.1" 200 458 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/classy/css/components/textarea.css?0 HTTP/1.1" 200 483 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/classy/css/components/tabs.css?0 HTTP/1.1" 200 605 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/classy/css/components/ui-dialog.css?0 HTTP/1.1" 200 494 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/classy/css/components/messages.css?0 HTTP/1.1" 200 953 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/admin-list.css?0 HTTP/1.1" 200 735 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/content-header.css?0 HTTP/1.1" 200 454 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/container-inline.css?0 HTTP/1.1" 200 513 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/container-inline.module.css?0 HTTP/1.1" 200 434 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/breadcrumb.css?0 HTTP/1.1" 200 435 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/buttons.css?0 HTTP/1.1" 200 1991 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/details.css?0 HTTP/1.1" 200 603 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/messages.css?0 HTTP/1.1" 200 503 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/entity-meta.css?0 HTTP/1.1" 200 999 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/dropbutton.component.css?0 HTTP/1.1" 200 2110 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/field-ui.css?0 HTTP/1.1" 200 636 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/menus-and-lists.css?0 HTTP/1.1" 200 626 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/modules-page.css?0 HTTP/1.1" 200 657 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/form.css?0 HTTP/1.1" 200 2592 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/help.css?0 HTTP/1.1" 200 436 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/node.css?0 HTTP/1.1" 200 319 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/page-title.css?0 HTTP/1.1" 200 450 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/pager.css?0 HTTP/1.1" 200 745 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/panel.css?0 HTTP/1.1" 200 545 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/tables.css?0 HTTP/1.1" 200 1227 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/search-admin-settings.css?0 HTTP/1.1" 200 513 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/skip-link.css?0 HTTP/1.1" 200 639 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/tablesort-indicator.css?0 HTTP/1.1" 200 578 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/system-status-report-general-info.css?0 HTTP/1.1" 200 1243 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/system-status-report-counters.css?0 HTTP/1.1" 200 588 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/system-status-counter.css?0 HTTP/1.1" 200 1023 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/tabs.css?0 HTTP/1.1" 200 2226 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/system-status-report.css?0 HTTP/1.1" 200 1402 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/components/views-ui.css?0 HTTP/1.1" 200 2186 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/theme/colors.css?0 HTTP/1.1" 200 477 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/theme/maintenance-page.css?0 HTTP/1.1" 200 1617 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/css/theme/install-page.css?0 HTTP/1.1" 200 902 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/assets/vendor/jquery-once/jquery.once.min.js?v=2.2.0 HTTP/1.1" 200 777 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/misc/drupalSettingsLoader.js?v=8.8.2 HTTP/1.1" 200 663 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/assets/vendor/jquery/jquery.min.js?v=3.4.1 HTTP/1.1" 200 31030 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/misc/drupal.js?v=8.8.2 HTTP/1.1" 200 2206 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/misc/drupal.init.js?v=8.8.2 HTTP/1.1" 200 738 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/js/mobile.install.js?v=8.8.2 HTTP/1.1" 200 832 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/misc/states.js?v=8.8.2 HTTP/1.1" 200 3044 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/themes/seven/images/noise-low.png HTTP/1.1" 200 5440 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/themes/seven/css/theme/install-page.css?0" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:27 +0000] "GET /core/misc/icons/333333/caret-down.svg HTTP/1.1" 200 489 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/themes/seven/css/components/form.css?0" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:28 +0000] "GET /core/misc/favicon.ico HTTP/1.1" 200 5731 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:29 +0000] "POST /core/install.php HTTP/1.1" 302 998 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:29 +0000] "GET /core/install.php?rewrite=ok&langcode=en HTTP/1.1" 200 3133 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:29 +0000] "GET /core/misc/icons/e29700/warning.svg HTTP/1.1" 200 700 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/themes/classy/css/components/messages.css?0" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:31 +0000] "POST /core/install.php?rewrite=ok&langcode=en HTTP/1.1" 302 1099 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:31 +0000] "GET /core/install.php?rewrite=ok&langcode=en&profile=standard HTTP/1.1" 200 4057 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:32 +0000] "GET /core/misc/debounce.js?v=8.8.2 HTTP/1.1" 200 750 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:32 +0000] "GET /core/assets/vendor/modernizr/modernizr.min.js?v=3.3.1 HTTP/1.1" 200 2461 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:32 +0000] "GET /core/assets/vendor/jquery.cookie/jquery.cookie.min.js?v=1.4.1 HTTP/1.1" 200 1047 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:32 +0000] "GET /core/misc/details-aria.js?v=8.8.2 HTTP/1.1" 200 714 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:32 +0000] "GET /core/misc/collapse.js?v=8.8.2 HTTP/1.1" 200 1429 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:32 +0000] "GET /core/misc/form.js?v=8.8.2 HTTP/1.1" 200 1858 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:13:32 +0000] "GET /core/misc/icons/ee0000/required.svg HTTP/1.1" 200 801 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/themes/classy/css/components/form.css?0" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 127.0.0.1 - - [19/Jul/2021:12:13:39 +0000] "OPTIONS * HTTP/1.0" 200 126 "-" "Apache/2.4.25 (Debian) PHP/7.3.15 (internal dummy connection)"
+drupal1_1    | 127.0.0.1 - - [19/Jul/2021:12:13:40 +0000] "OPTIONS * HTTP/1.0" 200 126 "-" "Apache/2.4.25 (Debian) PHP/7.3.15 (internal dummy connection)"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:14:14 +0000] "POST /core/install.php?rewrite=ok&langcode=en&profile=standard HTTP/1.1" 200 4431 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:14:14 +0000] "GET /core/misc/icons/e32700/error.svg HTTP/1.1" 200 968 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/themes/classy/css/components/messages.css?0" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:17:05 +0000] "POST /core/install.php?rewrite=ok&langcode=en&profile=standard HTTP/1.1" 200 4427 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:17:58 +0000] "POST /core/install.php?rewrite=ok&langcode=en&profile=standard HTTP/1.1" 200 4421 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:19:22 +0000] "POST /core/install.php?rewrite=ok&langcode=en&profile=standard HTTP/1.1" 200 4414 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+postgres1_1  | 2021-07-19 12:20:55.470 UTC [63] ERROR:  relation "cache_discovery" does not exist at character 13
+postgres1_1  | 2021-07-19 12:20:55.470 UTC [63] STATEMENT:  DELETE FROM cache_discovery
+postgres1_1  |  WHERE cid IN ('typed_config_definitions')
+postgres1_1  | 2021-07-19 12:20:55.503 UTC [63] ERROR:  relation "cache_bootstrap" does not exist at character 68
+postgres1_1  | 2021-07-19 12:20:55.503 UTC [63] STATEMENT:  SELECT cid, data, created, expire, serialized, tags, checksum FROM cache_bootstrap WHERE cid IN ( 'module_implements' ) ORDER BY cid
+postgres1_1  | 2021-07-19 12:20:55.503 UTC [63] ERROR:  relation "cache_bootstrap" does not exist at character 68
+postgres1_1  | 2021-07-19 12:20:55.503 UTC [63] STATEMENT:  SELECT cid, data, created, expire, serialized, tags, checksum FROM cache_bootstrap WHERE cid IN ( 'hook_info' ) ORDER BY cid
+postgres1_1  | 2021-07-19 12:20:55.505 UTC [63] ERROR:  relation "public.cache_bootstrap" does not exist at character 409
+postgres1_1  | 2021-07-19 12:20:55.505 UTC [63] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_bootstrap'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:20:55.529 UTC [63] ERROR:  relation "cachetags" does not exist at character 32
+postgres1_1  | 2021-07-19 12:20:55.529 UTC [63] STATEMENT:  SELECT tag, invalidations FROM cachetags WHERE tag IN ( 'entity_types' )
+postgres1_1  | 2021-07-19 12:20:55.543 UTC [63] ERROR:  relation "config" does not exist at character 29
+postgres1_1  | 2021-07-19 12:20:55.543 UTC [63] STATEMENT:  SELECT 1 AS expression
+postgres1_1  |  FROM
+postgres1_1  |  config config
+postgres1_1  |  WHERE (collection = '') AND (name = 'core.extension')
+postgres1_1  | 2021-07-19 12:20:55.556 UTC [63] ERROR:  relation "public.cache_config" does not exist at character 409
+postgres1_1  | 2021-07-19 12:20:55.556 UTC [63] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_config'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:20:55.606 UTC [63] ERROR:  relation "cache_default" does not exist at character 13
+postgres1_1  | 2021-07-19 12:20:55.606 UTC [63] STATEMENT:  DELETE FROM cache_default
+postgres1_1  |  WHERE cid IN ('core.extension.list.module')
+postgres1_1  | 2021-07-19 12:20:55.626 UTC [63] ERROR:  relation "key_value" does not exist at character 13
+postgres1_1  | 2021-07-19 12:20:55.626 UTC [63] STATEMENT:  DELETE FROM key_value
+postgres1_1  |  WHERE (name IN ('system.module.files')) AND (collection = 'state')
+postgres1_1  | 2021-07-19 12:20:55.657 UTC [63] ERROR:  relation "key_value" does not exist at character 13
+postgres1_1  | 2021-07-19 12:20:55.657 UTC [63] STATEMENT:  DELETE FROM key_value
+postgres1_1  |  WHERE (name IN ('system.module.files')) AND (collection = 'state')
+postgres1_1  | 2021-07-19 12:20:55.870 UTC [63] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:20:55.870 UTC [63] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:20:55.884 UTC [63] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:20:55.884 UTC [63] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:20:55.896 UTC [63] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:20:55.896 UTC [63] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:20:55.908 UTC [63] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:20:55.908 UTC [63] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:20:55.919 UTC [63] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:20:55.919 UTC [63] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:20:55.972 UTC [63] ERROR:  relation "public.semaphore" does not exist at character 409
+postgres1_1  | 2021-07-19 12:20:55.972 UTC [63] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.semaphore'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:20:56.019 UTC [63] ERROR:  relation "router" does not exist at character 13
+postgres1_1  | 2021-07-19 12:20:56.019 UTC [63] STATEMENT:  DELETE FROM router
+postgres1_1  | 2021-07-19 12:20:56.049 UTC [63] ERROR:  relation "menu_tree" does not exist at character 55
+postgres1_1  | 2021-07-19 12:20:56.049 UTC [63] STATEMENT:  SELECT DISTINCT menu_tree.menu_name AS menu_name
+postgres1_1  |  FROM
+postgres1_1  |  menu_tree menu_tree
+postgres1_1  | 2021-07-19 12:20:56.172 UTC [63] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:20:56.172 UTC [63] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:20:56.232 UTC [63] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:20:56.232 UTC [63] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:20:56.632 UTC [63] ERROR:  relation "cache_entity" does not exist at character 13
+postgres1_1  | 2021-07-19 12:20:56.632 UTC [63] STATEMENT:  DELETE FROM cache_entity
+postgres1_1  |  WHERE cid IN ('values:user:0')
+postgres1_1  | 2021-07-19 12:20:56.747 UTC [63] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:20:56.747 UTC [63] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:20:56.823 UTC [63] ERROR:  relation "public.queue" does not exist at character 409
+postgres1_1  | 2021-07-19 12:20:56.823 UTC [63] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.queue'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:20:56.888 UTC [63] ERROR:  relation "public.batch" does not exist at character 409
+postgres1_1  | 2021-07-19 12:20:56.888 UTC [63] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.batch'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:20:55 +0000] "POST /core/install.php?rewrite=ok&langcode=en&profile=standard HTTP/1.1" 302 1426 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+postgres1_1  | 2021-07-19 12:20:57.260 UTC [65] ERROR:  relation "cache_data" does not exist at character 68
+postgres1_1  | 2021-07-19 12:20:57.260 UTC [65] STATEMENT:  SELECT cid, data, created, expire, serialized, tags, checksum FROM cache_data WHERE cid IN ( 'route_provider.route_load:be2379e04cf37ec305c531e6ffb8327502c6421ac10d8b7a38bd9aa2e01d42102cf0581510515d56ec6c253222718f7c4a4282b46e3a274578499f5b90ef4753' ) ORDER BY cid
+postgres1_1  | 2021-07-19 12:20:57.261 UTC [65] ERROR:  relation "public.cache_data" does not exist at character 409
+postgres1_1  | 2021-07-19 12:20:57.261 UTC [65] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_data'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:20:57 +0000] "GET /core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=start HTTP/1.1" 200 2728 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:20:57 +0000] "GET /core/themes/classy/css/components/progress.css?0 HTTP/1.1" 200 958 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=start" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:20:57 +0000] "GET /core/misc/progress.js?v=8.8.2 HTTP/1.1" 200 1349 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=start" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:20:57 +0000] "GET /core/misc/ajax.js?v=8.8.2 HTTP/1.1" 200 5662 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=start" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:20:57 +0000] "GET /core/themes/stable/js/ajax.js?v=8.8.2 HTTP/1.1" 200 587 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=start" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:20:57 +0000] "GET /core/misc/batch.js?1626697257 HTTP/1.1" 200 892 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=start" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+postgres1_1  | 2021-07-19 12:20:58.051 UTC [66] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:20:58.051 UTC [66] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:20:58.245 UTC [66] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:20:58.245 UTC [66] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:20:58.469 UTC [66] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:20:58.469 UTC [66] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:20:58.676 UTC [66] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:20:58.676 UTC [66] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:20:58.871 UTC [66] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:20:58.871 UTC [66] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:20:57 +0000] "POST /core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=do_nojs&op=do&_format=json HTTP/1.1" 200 1512 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=start" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+postgres1_1  | 2021-07-19 12:20:59.420 UTC [67] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:20:59.420 UTC [67] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:20:59.615 UTC [67] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:20:59.615 UTC [67] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:20:59.818 UTC [67] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:20:59.818 UTC [67] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:00.094 UTC [67] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:00.094 UTC [67] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:00.316 UTC [67] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:00.316 UTC [67] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:20:58 +0000] "POST /core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=do_nojs&op=do&_format=json HTTP/1.1" 200 1506 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=start" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+postgres1_1  | 2021-07-19 12:21:00.884 UTC [68] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:00.884 UTC [68] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:01.101 UTC [68] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:01.101 UTC [68] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:01.321 UTC [68] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:01.321 UTC [68] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:01.569 UTC [68] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:01.569 UTC [68] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:21:00 +0000] "POST /core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=do_nojs&op=do&_format=json HTTP/1.1" 200 1277 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=start" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+postgres1_1  | 2021-07-19 12:21:02.215 UTC [69] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:02.215 UTC [69] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:02.509 UTC [69] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:02.509 UTC [69] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:02.754 UTC [69] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:02.754 UTC [69] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:02.994 UTC [69] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:02.994 UTC [69] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:21:01 +0000] "POST /core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=do_nojs&op=do&_format=json HTTP/1.1" 200 1281 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=start" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+postgres1_1  | 2021-07-19 12:21:03.618 UTC [70] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:03.618 UTC [70] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:04.110 UTC [70] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:04.110 UTC [70] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:04.782 UTC [70] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:04.782 UTC [70] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:21:03 +0000] "POST /core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=do_nojs&op=do&_format=json HTTP/1.1" 200 1053 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=start" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+postgres1_1  | 2021-07-19 12:21:05.418 UTC [71] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:05.418 UTC [71] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:05.708 UTC [71] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:05.708 UTC [71] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:05.963 UTC [71] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:05.963 UTC [71] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:06.541 UTC [71] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:06.541 UTC [71] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:21:04 +0000] "POST /core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=do_nojs&op=do&_format=json HTTP/1.1" 200 1281 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=start" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+postgres1_1  | 2021-07-19 12:21:07.188 UTC [72] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:07.188 UTC [72] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:07.503 UTC [72] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:07.503 UTC [72] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:07.798 UTC [72] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:07.798 UTC [72] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:08.113 UTC [72] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:08.113 UTC [72] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:21:06 +0000] "POST /core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=do_nojs&op=do&_format=json HTTP/1.1" 200 1281 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=start" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+postgres1_1  | 2021-07-19 12:21:09.115 UTC [73] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:09.115 UTC [73] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:09.496 UTC [73] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:09.496 UTC [73] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:21:08 +0000] "POST /core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=do_nojs&op=do&_format=json HTTP/1.1" 200 829 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=start" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+postgres1_1  | 2021-07-19 12:21:10.595 UTC [74] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:10.595 UTC [74] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:10.969 UTC [74] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:10.969 UTC [74] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:11.476 UTC [74] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:11.476 UTC [74] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:21:10 +0000] "POST /core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=do_nojs&op=do&_format=json HTTP/1.1" 200 1066 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=start" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+postgres1_1  | 2021-07-19 12:21:12.205 UTC [75] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:12.205 UTC [75] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:12.541 UTC [75] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:12.541 UTC [75] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:12.873 UTC [75] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:12.873 UTC [75] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:21:11 +0000] "POST /core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=do_nojs&op=do&_format=json HTTP/1.1" 200 1059 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=start" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+postgres1_1  | 2021-07-19 12:21:13.596 UTC [76] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:13.596 UTC [76] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:14.121 UTC [76] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:14.121 UTC [76] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:14.487 UTC [76] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:14.487 UTC [76] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:21:13 +0000] "POST /core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=do_nojs&op=do&_format=json HTTP/1.1" 200 1058 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=start" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:21:14 +0000] "GET /core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=do_nojs&op=finished HTTP/1.1" 303 1103 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=start" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+postgres1_1  | 2021-07-19 12:21:16.981 UTC [78] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:16.981 UTC [78] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:17.150 UTC [78] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:17.150 UTC [78] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:21:18.024 UTC [78] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:21:18.024 UTC [78] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:21:14 +0000] "GET /core/install.php?rewrite=ok&langcode=en&profile=standard HTTP/1.1" 200 11608 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard&id=1&op=start" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:21:18 +0000] "GET /core/themes/stable/css/user/user.module.css?0 HTTP/1.1" 200 557 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:21:18 +0000] "GET /core/themes/classy/css/components/user.css?0 HTTP/1.1" 200 848 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:21:18 +0000] "GET /core/misc/timezone.js?v=8.8.2 HTTP/1.1" 200 994 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:21:18 +0000] "GET /core/modules/system/js/system.js?v=8.8.2 HTTP/1.1" 200 914 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:21:18 +0000] "GET /core/modules/user/user.theme.js?v=8.8.2 HTTP/1.1" 200 646 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:21:18 +0000] "GET /core/modules/user/user.js?v=8.8.2 HTTP/1.1" 200 1867 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:21:18 +0000] "GET /core/themes/stable/js/user.theme.js?v=8.8.2 HTTP/1.1" 200 646 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:21:18 +0000] "GET /core/install.php/system/timezone/0/19800/?date=Mon%20Jul%2019%202021%2017%3A51%3A18%20GMT%2B0530%20(India%20Standard%20Time) HTTP/1.1" 200 4684 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+postgres1_1  | 2021-07-19 12:22:15.120 UTC [81] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:22:15.120 UTC [81] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:22:15.435 UTC [81] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:22:15.435 UTC [81] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:22:15.469 UTC [81] ERROR:  relation "flood" does not exist at character 13
+postgres1_1  | 2021-07-19 12:22:15.469 UTC [81] STATEMENT:  DELETE FROM flood
+postgres1_1  |  WHERE expiration < '1626697334'
+postgres1_1  | 2021-07-19 12:22:15.472 UTC [81] ERROR:  relation "cache_menu" does not exist at character 43
+postgres1_1  | 2021-07-19 12:22:15.472 UTC [81] STATEMENT:  SELECT cache_menu.created AS created
+postgres1_1  |  FROM
+postgres1_1  |  cache_menu cache_menu
+postgres1_1  |  ORDER BY cache_menu.created DESC NULLS LAST
+postgres1_1  |  LIMIT 5001 OFFSET 5000
+postgres1_1  | 2021-07-19 12:22:15.472 UTC [81] ERROR:  relation "cache_render" does not exist at character 45
+postgres1_1  | 2021-07-19 12:22:15.472 UTC [81] STATEMENT:  SELECT cache_render.created AS created
+postgres1_1  |  FROM
+postgres1_1  |  cache_render cache_render
+postgres1_1  |  ORDER BY cache_render.created DESC NULLS LAST
+postgres1_1  |  LIMIT 5001 OFFSET 5000
+postgres1_1  | 2021-07-19 12:22:15.474 UTC [81] ERROR:  relation "cache_dynamic_page_cache" does not exist at character 57
+postgres1_1  | 2021-07-19 12:22:15.474 UTC [81] STATEMENT:  SELECT cache_dynamic_page_cache.created AS created
+postgres1_1  |  FROM
+postgres1_1  |  cache_dynamic_page_cache cache_dynamic_page_cache
+postgres1_1  |  ORDER BY cache_dynamic_page_cache.created DESC NULLS LAST
+postgres1_1  |  LIMIT 5001 OFFSET 5000
+postgres1_1  | 2021-07-19 12:22:15.474 UTC [81] ERROR:  relation "cache_page" does not exist at character 43
+postgres1_1  | 2021-07-19 12:22:15.474 UTC [81] STATEMENT:  SELECT cache_page.created AS created
+postgres1_1  |  FROM
+postgres1_1  |  cache_page cache_page
+postgres1_1  |  ORDER BY cache_page.created DESC NULLS LAST
+postgres1_1  |  LIMIT 5001 OFFSET 5000
+postgres1_1  | 2021-07-19 12:22:15.475 UTC [81] ERROR:  relation "cache_toolbar" does not exist at character 46
+postgres1_1  | 2021-07-19 12:22:15.475 UTC [81] STATEMENT:  SELECT cache_toolbar.created AS created
+postgres1_1  |  FROM
+postgres1_1  |  cache_toolbar cache_toolbar
+postgres1_1  |  ORDER BY cache_toolbar.created DESC NULLS LAST
+postgres1_1  |  LIMIT 5001 OFFSET 5000
+drupal1_1    | sh: 1: -t: not found
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:14 +0000] "POST /core/install.php?rewrite=ok&langcode=en&profile=standard HTTP/1.1" 302 1012 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+postgres1_1  | 2021-07-19 12:22:15.761 UTC [82] ERROR:  relation "cache_container" does not exist at character 68
+postgres1_1  | 2021-07-19 12:22:15.761 UTC [82] STATEMENT:  SELECT cid, data, created, expire, serialized, tags, checksum FROM cache_container WHERE cid IN ( 'service_container:prod:8.8.2::Linux:a:1:{i:0;s:40:"/var/www/html/sites/default/services.yml";}' ) ORDER BY cid
+postgres1_1  | 2021-07-19 12:22:15.880 UTC [82] ERROR:  relation "public.cache_container" does not exist at character 409
+postgres1_1  | 2021-07-19 12:22:15.880 UTC [82] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_container'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:22:15.943 UTC [82] ERROR:  relation "cache_dynamic_page_cache" does not exist at character 68
+postgres1_1  | 2021-07-19 12:22:15.943 UTC [82] STATEMENT:  SELECT cid, data, created, expire, serialized, tags, checksum FROM cache_dynamic_page_cache WHERE cid IN ( 'response:[request_format]=html:[route]=view.frontpage.page_135786c7117b4e38d0f169239752ce71158266ae2f6e4aa230fbbb87bd699c0e3' ) ORDER BY cid
+postgres1_1  | 2021-07-19 12:22:15.971 UTC [82] ERROR:  relation "cache_render" does not exist at character 68
+postgres1_1  | 2021-07-19 12:22:15.971 UTC [82] STATEMENT:  SELECT cid, data, created, expire, serialized, tags, checksum FROM cache_render WHERE cid IN ( 'view:frontpage:display:page_1:[languages:language_interface]=en:[theme]=bartik:[user.permissions]=fc43ff58de234b71701d70f56890a9a6387f3d6356f62abcc1f6dbc998e85669' ) ORDER BY cid
+postgres1_1  | 2021-07-19 12:22:16.119 UTC [82] ERROR:  relation "cache_render" does not exist at character 68
+postgres1_1  | 2021-07-19 12:22:16.119 UTC [82] STATEMENT:  SELECT cid, data, created, expire, serialized, tags, checksum FROM cache_render WHERE cid IN ( 'view:frontpage:display:page_1:[languages:language_interface]=en:[theme]=bartik:[url.query_args]=:[user.node_grants:view]=all:[user.permissions]=fc43ff58de234b71701d70f56890a9a6387f3d6356f62abcc1f6dbc998e85669' ) ORDER BY cid
+postgres1_1  | 2021-07-19 12:22:16.181 UTC [82] ERROR:  relation "public.cache_render" does not exist at character 409
+postgres1_1  | 2021-07-19 12:22:16.181 UTC [82] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_render'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+postgres1_1  | 2021-07-19 12:22:16.296 UTC [82] ERROR:  relation "cache_menu" does not exist at character 68
+postgres1_1  | 2021-07-19 12:22:16.296 UTC [82] STATEMENT:  SELECT cid, data, created, expire, serialized, tags, checksum FROM cache_menu WHERE cid IN ( 'tree-data:admin:C:35:"Drupal\Core\Menu\MenuTreeParameters":158:{a:6:{s:4:"root";s:0:"";s:8:"minDepth";i:2;s:8:"maxDepth";i:4;s:15:"expandedParents";a:0:{}s:11:"activeTrail";a:0:{}s:10:"conditions";a:1:{s:7:"enabled";i:1;}}}' ) ORDER BY cid
+postgres1_1  | 2021-07-19 12:22:16.299 UTC [82] ERROR:  relation "public.cache_menu" does not exist at character 409
+postgres1_1  | 2021-07-19 12:22:16.299 UTC [82] STATEMENT:  SELECT pg_attribute.attname AS column_name, format_type(pg_attribute.atttypid, pg_attribute.atttypmod) AS data_type, pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid) AS column_default
+postgres1_1  |  FROM pg_attribute
+postgres1_1  |  LEFT JOIN pg_attrdef ON pg_attrdef.adrelid = pg_attribute.attrelid AND pg_attrdef.adnum = pg_attribute.attnum
+postgres1_1  |  WHERE pg_attribute.attnum > 0
+postgres1_1  |  AND NOT pg_attribute.attisdropped
+postgres1_1  |  AND pg_attribute.attrelid = 'public.cache_menu'::regclass
+postgres1_1  |  AND (format_type(pg_attribute.atttypid, pg_attribute.atttypmod) = 'bytea'
+postgres1_1  |  OR pg_get_expr(pg_attrdef.adbin, pg_attribute.attrelid)::text LIKE 'nextval%')
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:15 +0000] "GET / HTTP/1.1" 200 6799 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/core/install.php?rewrite=ok&langcode=en&profile=standard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:16 +0000] "GET /sites/default/files/css/css_WqB8auB4lKvuXZFYAUN8NdPH_9V7WyvULmKOJxct1Ms.css HTTP/1.1" 200 5164 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:16 +0000] "GET /sites/default/files/css/css_rppRGD_OoHfR_SJsouUbDXbYqdDsbR40sRSsm5MvFnw.css HTTP/1.1" 200 867 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:16 +0000] "GET /sites/default/files/css/css_35fqv7NYNNIsRwp41HyR3pDgvvRqpTvfcl1iBenEKBg.css HTTP/1.1" 200 6988 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:16 +0000] "GET /sites/default/files/css/css_7yTt9sM3dRkmf7FbAO2SqjGlA2u0qFHoXWeDQTeRulA.css HTTP/1.1" 200 11220 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:16 +0000] "GET /core/themes/bartik/logo.svg HTTP/1.1" 200 4099 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:16 +0000] "GET /sites/default/files/css/css_Z5jMg7P_bjcW9iUzujI7oaechMyxQTUqZhHJ_aYSq04.css HTTP/1.1" 200 611 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:16 +0000] "GET /core/themes/stable/images/core/icons/bebebe/hamburger.svg HTTP/1.1" 200 798 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_35fqv7NYNNIsRwp41HyR3pDgvvRqpTvfcl1iBenEKBg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:16 +0000] "GET /core/themes/stable/images/core/icons/787878/file.svg HTTP/1.1" 200 655 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_35fqv7NYNNIsRwp41HyR3pDgvvRqpTvfcl1iBenEKBg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:17 +0000] "GET /core/themes/stable/images/core/icons/787878/orgchart.svg HTTP/1.1" 200 1145 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_35fqv7NYNNIsRwp41HyR3pDgvvRqpTvfcl1iBenEKBg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:16 +0000] "GET /sites/default/files/js/js_ER4yPY8P6-NRw-rVC8xavWQSG5T_sm0VFAUPgJ_rwTE.js HTTP/1.1" 200 122557 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:17 +0000] "GET /core/themes/stable/images/core/icons/787878/questionmark-disc.svg HTTP/1.1" 200 998 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_35fqv7NYNNIsRwp41HyR3pDgvvRqpTvfcl1iBenEKBg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:17 +0000] "GET /core/themes/stable/images/core/icons/787878/puzzlepiece.svg HTTP/1.1" 200 1075 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_35fqv7NYNNIsRwp41HyR3pDgvvRqpTvfcl1iBenEKBg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:17 +0000] "GET /core/themes/stable/images/core/icons/bebebe/star.svg HTTP/1.1" 200 820 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_35fqv7NYNNIsRwp41HyR3pDgvvRqpTvfcl1iBenEKBg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:17 +0000] "GET /core/themes/stable/images/core/icons/787878/people.svg HTTP/1.1" 200 1361 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_35fqv7NYNNIsRwp41HyR3pDgvvRqpTvfcl1iBenEKBg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:17 +0000] "GET /core/themes/stable/images/core/icons/787878/wrench.svg HTTP/1.1" 200 695 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_35fqv7NYNNIsRwp41HyR3pDgvvRqpTvfcl1iBenEKBg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:17 +0000] "GET /core/themes/stable/images/core/icons/787878/barchart.svg HTTP/1.1" 200 716 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_35fqv7NYNNIsRwp41HyR3pDgvvRqpTvfcl1iBenEKBg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:17 +0000] "GET /core/themes/stable/images/core/icons/bebebe/person.svg HTTP/1.1" 200 863 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_35fqv7NYNNIsRwp41HyR3pDgvvRqpTvfcl1iBenEKBg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:17 +0000] "GET /core/misc/icons/505050/loupe.svg HTTP/1.1" 200 779 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_7yTt9sM3dRkmf7FbAO2SqjGlA2u0qFHoXWeDQTeRulA.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:17 +0000] "GET /core/misc/feed.svg HTTP/1.1" 200 750 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_7yTt9sM3dRkmf7FbAO2SqjGlA2u0qFHoXWeDQTeRulA.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:17 +0000] "GET /core/themes/stable/images/core/icons/787878/paintbrush.svg HTTP/1.1" 200 875 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_35fqv7NYNNIsRwp41HyR3pDgvvRqpTvfcl1iBenEKBg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:17 +0000] "GET /core/themes/stable/images/core/icons/bebebe/chevron-disc-left.svg HTTP/1.1" 200 723 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_35fqv7NYNNIsRwp41HyR3pDgvvRqpTvfcl1iBenEKBg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:17 +0000] "GET /core/themes/stable/images/core/icons/ffffff/hamburger.svg HTTP/1.1" 200 798 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_35fqv7NYNNIsRwp41HyR3pDgvvRqpTvfcl1iBenEKBg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:17 +0000] "GET /core/themes/stable/images/core/icons/bebebe/push-left.svg HTTP/1.1" 200 685 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_35fqv7NYNNIsRwp41HyR3pDgvvRqpTvfcl1iBenEKBg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:17 +0000] "GET /core/themes/bartik/css/components/messages.css?0 HTTP/1.1" 200 548 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:17 +0000] "GET /core/misc/icons/73b355/check.svg HTTP/1.1" 200 622 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_7yTt9sM3dRkmf7FbAO2SqjGlA2u0qFHoXWeDQTeRulA.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:17 +0000] "POST /contextual/render HTTP/1.1" 200 3883 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:17 +0000] "GET /core/themes/stable/images/core/icons/bebebe/pencil.svg HTTP/1.1" 200 730 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_35fqv7NYNNIsRwp41HyR3pDgvvRqpTvfcl1iBenEKBg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+postgres1_1  | 2021-07-19 12:22:24.984 UTC [84] ERROR:  relation "cache_dynamic_page_cache" does not exist at character 68
+postgres1_1  | 2021-07-19 12:22:24.984 UTC [84] STATEMENT:  SELECT cid, data, created, expire, serialized, tags, checksum FROM cache_dynamic_page_cache WHERE cid IN ( 'response:[request_format]=html:[route]=view.frontpage.page_135786c7117b4e38d0f169239752ce71158266ae2f6e4aa230fbbb87bd699c0e3' ) ORDER BY cid
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:24 +0000] "GET / HTTP/1.1" 200 6547 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:25 +0000] "GET /sites/default/files/css/css_WqB8auB4lKvuXZFYAUN8NdPH_9V7WyvULmKOJxct1Ms.css HTTP/1.1" 200 5162 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:25 +0000] "GET /sites/default/files/css/css_rppRGD_OoHfR_SJsouUbDXbYqdDsbR40sRSsm5MvFnw.css HTTP/1.1" 200 865 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:25 +0000] "GET /sites/default/files/css/css_35fqv7NYNNIsRwp41HyR3pDgvvRqpTvfcl1iBenEKBg.css HTTP/1.1" 200 6986 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:25 +0000] "GET /sites/default/files/css/css_7yTt9sM3dRkmf7FbAO2SqjGlA2u0qFHoXWeDQTeRulA.css HTTP/1.1" 200 11218 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:25 +0000] "GET /sites/default/files/css/css_Z5jMg7P_bjcW9iUzujI7oaechMyxQTUqZhHJ_aYSq04.css HTTP/1.1" 200 609 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:25 +0000] "GET /sites/default/files/js/js_ER4yPY8P6-NRw-rVC8xavWQSG5T_sm0VFAUPgJ_rwTE.js HTTP/1.1" 200 122555 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 127.0.0.1 - - [19/Jul/2021:12:22:33 +0000] "OPTIONS * HTTP/1.0" 200 126 "-" "Apache/2.4.25 (Debian) PHP/7.3.15 (internal dummy connection)"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:45 +0000] "GET /core/themes/stable/images/core/icons/000000/paintbrush.svg HTTP/1.1" 200 876 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_35fqv7NYNNIsRwp41HyR3pDgvvRqpTvfcl1iBenEKBg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+postgres1_1  | 2021-07-19 12:22:45.193 UTC [85] ERROR:  relation "cache_dynamic_page_cache" does not exist at character 68
+postgres1_1  | 2021-07-19 12:22:45.193 UTC [85] STATEMENT:  SELECT cid, data, created, expire, serialized, tags, checksum FROM cache_dynamic_page_cache WHERE cid IN ( 'response:[request_format]=html:[route]=system.themes_page35786c7117b4e38d0f169239752ce71158266ae2f6e4aa230fbbb87bd699c0e3' ) ORDER BY cid
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:45 +0000] "GET /admin/appearance HTTP/1.1" 200 8098 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:45 +0000] "GET /sites/default/files/css/css_aifXx6ZbfPAXZTY1FGXrP6WPK_ZD08SumfqL3ng7fYw.css HTTP/1.1" 200 3437 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:45 +0000] "GET /sites/default/files/css/css_rppRGD_OoHfR_SJsouUbDXbYqdDsbR40sRSsm5MvFnw.css HTTP/1.1" 200 865 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:45 +0000] "GET /sites/default/files/css/css_IPvFjxVAOHPcivu1UQWzuqG0sBtusCTFaW5xCxjr6mY.css HTTP/1.1" 200 5018 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:45 +0000] "GET /sites/default/files/css/css_F1srXkL2X6oDA0VBgKTTtPN9wNXHCHO71CeDzzAK-6g.css HTTP/1.1" 200 14215 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:45 +0000] "GET /sites/default/files/js/js_JZWGrlykekl7Kd1y5tW9s5YmO1_0_oUC9w_h1vE3u-8.js HTTP/1.1" 200 73757 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:45 +0000] "GET /core/themes/bartik/screenshot.png HTTP/1.1" 200 40665 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:45 +0000] "GET /core/themes/seven/screenshot.png HTTP/1.1" 200 35826 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:45 +0000] "GET /themes/bootstrap/screenshot.png HTTP/1.1" 200 19780 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:45 +0000] "GET /core/themes/claro/screenshot.png HTTP/1.1" 200 50522 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:45 +0000] "GET /core/themes/stark/screenshot.png HTTP/1.1" 200 32283 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:45 +0000] "GET /core/themes/stable/images/shortcut/favstar.svg HTTP/1.1" 200 5754 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_IPvFjxVAOHPcivu1UQWzuqG0sBtusCTFaW5xCxjr6mY.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:22:46 +0000] "GET /sites/default/files/js/js_PJ30MxPyfUlKulQcZl1SMrDyqufzn5JXDOhnLHDt4Ts.js HTTP/1.1" 200 984 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 127.0.0.1 - - [19/Jul/2021:12:22:53 +0000] "OPTIONS * HTTP/1.0" 200 126 "-" "Apache/2.4.25 (Debian) PHP/7.3.15 (internal dummy connection)"
+postgres1_1  | 2021-07-19 12:23:01.664 UTC [87] ERROR:  relation "cache_dynamic_page_cache" does not exist at character 68
+postgres1_1  | 2021-07-19 12:23:01.664 UTC [87] STATEMENT:  SELECT cid, data, created, expire, serialized, tags, checksum FROM cache_dynamic_page_cache WHERE cid IN ( 'response:[request_format]=html:[route]=system.theme_set_default35786c7117b4e38d0f169239752ce71158266ae2f6e4aa230fbbb87bd699c0e3' ) ORDER BY cid
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:01 +0000] "GET /admin/appearance/default?theme=bootstrap&token=sOlILdETlgdLjhvnSXV99ATIu5ya-qv2p1S-Swo8-dQ HTTP/1.1" 302 1127 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+postgres1_1  | 2021-07-19 12:23:02.355 UTC [88] ERROR:  relation "cache_dynamic_page_cache" does not exist at character 68
+postgres1_1  | 2021-07-19 12:23:02.355 UTC [88] STATEMENT:  SELECT cid, data, created, expire, serialized, tags, checksum FROM cache_dynamic_page_cache WHERE cid IN ( 'response:[request_format]=html:[route]=system.themes_page35786c7117b4e38d0f169239752ce71158266ae2f6e4aa230fbbb87bd699c0e3' ) ORDER BY cid
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:02 +0000] "GET /admin/appearance HTTP/1.1" 200 8329 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:02 +0000] "GET /sites/default/files/css/css_aifXx6ZbfPAXZTY1FGXrP6WPK_ZD08SumfqL3ng7fYw.css HTTP/1.1" 200 3435 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:02 +0000] "GET /sites/default/files/css/css_rppRGD_OoHfR_SJsouUbDXbYqdDsbR40sRSsm5MvFnw.css HTTP/1.1" 200 865 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:02 +0000] "GET /sites/default/files/css/css_IPvFjxVAOHPcivu1UQWzuqG0sBtusCTFaW5xCxjr6mY.css HTTP/1.1" 200 5016 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:02 +0000] "GET /sites/default/files/css/css_F1srXkL2X6oDA0VBgKTTtPN9wNXHCHO71CeDzzAK-6g.css HTTP/1.1" 200 14213 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:03 +0000] "GET /sites/default/files/js/js_JZWGrlykekl7Kd1y5tW9s5YmO1_0_oUC9w_h1vE3u-8.js HTTP/1.1" 200 73755 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:03 +0000] "GET /sites/default/files/js/js_PJ30MxPyfUlKulQcZl1SMrDyqufzn5JXDOhnLHDt4Ts.js HTTP/1.1" 200 982 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:27 +0000] "POST /admin/appearance HTTP/1.1" 303 1131 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+postgres1_1  | 2021-07-19 12:23:28.326 UTC [90] ERROR:  relation "cache_dynamic_page_cache" does not exist at character 68
+postgres1_1  | 2021-07-19 12:23:28.326 UTC [90] STATEMENT:  SELECT cid, data, created, expire, serialized, tags, checksum FROM cache_dynamic_page_cache WHERE cid IN ( 'response:[request_format]=html:[route]=system.themes_page35786c7117b4e38d0f169239752ce71158266ae2f6e4aa230fbbb87bd699c0e3' ) ORDER BY cid
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:28 +0000] "GET /admin/appearance HTTP/1.1" 200 9443 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:30 +0000] "GET /sites/default/files/css/css_MK542u9ylu0lq7HQC9OAi2QyXfYcgfFu-5B0nt1h8dk.css HTTP/1.1" 200 2389 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:30 +0000] "GET /sites/default/files/css/css_rppRGD_OoHfR_SJsouUbDXbYqdDsbR40sRSsm5MvFnw.css HTTP/1.1" 200 864 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:30 +0000] "GET /sites/default/files/css/css_AjBCadBDK6lxU7ofpXo0FHSNPmbNEomJNpURAKpZgzg.css HTTP/1.1" 200 5819 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:30 +0000] "GET /sites/default/files/js/js_wYPWTHwN4DTHWYteRSxPnaNoTcjWdAyffsZdvt1iiVA.js HTTP/1.1" 200 56574 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:30 +0000] "GET /themes/bootstrap/logo.svg HTTP/1.1" 200 1585 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:30 +0000] "GET /core/misc/icons/bebebe/chevron-disc-left.svg HTTP/1.1" 200 724 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_AjBCadBDK6lxU7ofpXo0FHSNPmbNEomJNpURAKpZgzg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:30 +0000] "GET /sites/default/files/js/js_ox7BLV1RMuxMlJM-BUl0ccFeuS42oLtCc3wS5bEiYGg.js HTTP/1.1" 200 29155 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:30 +0000] "GET /core/misc/icons/787878/paintbrush.svg HTTP/1.1" 200 875 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_AjBCadBDK6lxU7ofpXo0FHSNPmbNEomJNpURAKpZgzg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:30 +0000] "GET /core/misc/icons/787878/puzzlepiece.svg HTTP/1.1" 200 1076 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_AjBCadBDK6lxU7ofpXo0FHSNPmbNEomJNpURAKpZgzg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:30 +0000] "GET /core/misc/icons/787878/people.svg HTTP/1.1" 200 1361 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_AjBCadBDK6lxU7ofpXo0FHSNPmbNEomJNpURAKpZgzg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:30 +0000] "GET /core/misc/icons/787878/wrench.svg HTTP/1.1" 200 696 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_AjBCadBDK6lxU7ofpXo0FHSNPmbNEomJNpURAKpZgzg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:30 +0000] "GET /core/misc/icons/787878/orgchart.svg HTTP/1.1" 200 1145 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_AjBCadBDK6lxU7ofpXo0FHSNPmbNEomJNpURAKpZgzg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:30 +0000] "GET /core/misc/icons/787878/barchart.svg HTTP/1.1" 200 716 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_AjBCadBDK6lxU7ofpXo0FHSNPmbNEomJNpURAKpZgzg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:30 +0000] "GET /core/misc/icons/bebebe/person.svg HTTP/1.1" 200 863 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_AjBCadBDK6lxU7ofpXo0FHSNPmbNEomJNpURAKpZgzg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:30 +0000] "GET /core/misc/icons/bebebe/star.svg HTTP/1.1" 200 820 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_AjBCadBDK6lxU7ofpXo0FHSNPmbNEomJNpURAKpZgzg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:30 +0000] "GET /core/misc/icons/787878/questionmark-disc.svg HTTP/1.1" 200 997 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_AjBCadBDK6lxU7ofpXo0FHSNPmbNEomJNpURAKpZgzg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:30 +0000] "GET /core/misc/icons/bebebe/hamburger.svg HTTP/1.1" 200 798 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_AjBCadBDK6lxU7ofpXo0FHSNPmbNEomJNpURAKpZgzg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:30 +0000] "GET /core/misc/icons/787878/file.svg HTTP/1.1" 200 654 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_AjBCadBDK6lxU7ofpXo0FHSNPmbNEomJNpURAKpZgzg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:31 +0000] "GET /core/misc/icons/000000/paintbrush.svg HTTP/1.1" 200 875 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_AjBCadBDK6lxU7ofpXo0FHSNPmbNEomJNpURAKpZgzg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:31 +0000] "GET /core/misc/icons/ffffff/hamburger.svg HTTP/1.1" 200 798 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_AjBCadBDK6lxU7ofpXo0FHSNPmbNEomJNpURAKpZgzg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:31 +0000] "GET /core/misc/icons/bebebe/push-left.svg HTTP/1.1" 200 685 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_AjBCadBDK6lxU7ofpXo0FHSNPmbNEomJNpURAKpZgzg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:31 +0000] "POST /contextual/render HTTP/1.1" 200 1740 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:31 +0000] "GET /themes/bootstrap/favicon.ico HTTP/1.1" 200 1450 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:31 +0000] "GET /core/misc/icons/bebebe/pencil.svg HTTP/1.1" 200 730 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_AjBCadBDK6lxU7ofpXo0FHSNPmbNEomJNpURAKpZgzg.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+postgres1_1  | 2021-07-19 12:23:36.609 UTC [92] ERROR:  relation "cache_dynamic_page_cache" does not exist at character 68
+postgres1_1  | 2021-07-19 12:23:36.609 UTC [92] STATEMENT:  SELECT cid, data, created, expire, serialized, tags, checksum FROM cache_dynamic_page_cache WHERE cid IN ( 'response:[request_format]=html:[route]=view.frontpage.page_135786c7117b4e38d0f169239752ce71158266ae2f6e4aa230fbbb87bd699c0e3' ) ORDER BY cid
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:36 +0000] "GET / HTTP/1.1" 200 6415 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/appearance" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:37 +0000] "GET /sites/default/files/css/css_tIBenJ-LpSgyv0el-9my6xVzpD8sEAyvB8weBZ9ikus.css HTTP/1.1" 200 3160 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:37 +0000] "GET /sites/default/files/css/css_cBSRp6xiMHysEawo8-zWz3NH62dttWifddr_j0ojlvA.css HTTP/1.1" 200 6756 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:37 +0000] "GET /sites/default/files/js/js_0GSefzyuL0YJJbxlwaOW1KhDkeRrw8SV65GEcPtzkMU.js HTTP/1.1" 200 66942 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:23:37 +0000] "GET /sites/default/files/js/js_nVjYjoR2v8XH9cH07EwRJh_L4wdadKL08GjJCyTbWIk.js HTTP/1.1" 200 71291 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 127.0.0.1 - - [19/Jul/2021:12:23:45 +0000] "OPTIONS * HTTP/1.0" 200 126 "-" "Apache/2.4.25 (Debian) PHP/7.3.15 (internal dummy connection)"
+^CGracefully stopping... (press Ctrl+C again to force)
+Stopping compose-assignment-2_postgres1_1 ... done
+Stopping compose-assignment-2_drupal1_1   ... done
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/compose-assignment-2$
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/compose-assignment-2$ docker network ls
+NETWORK ID     NAME                           DRIVER    SCOPE
+9770b06f7c8b   bridge                         bridge    local
+ef8a34e3fb1e   compose-assignment-2_default   bridge    local
+93762da4aeea   host                           host      local
+84bd74bcc6af   none                           null      local
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/compose-assignment-2$ docker volume ls
+DRIVER    VOLUME NAME
+local     compose-assignment-2_drupal-data
+local     compose-assignment-2_drupal-modules
+local     compose-assignment-2_drupal-profiles
+local     compose-assignment-2_drupal-sites
+local     compose-assignment-2_drupal-themes
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/compose-assignment-2$ docker container ps -a
+CONTAINER ID   IMAGE           COMMAND                  CREATED          STATUS                     PORTS     NAMES
+5b91ade7e232   postgres:12.1   "docker-entrypoint.s…"   22 minutes ago   Exited (0) 5 minutes ago             compose-assignment-2_postgres1_1
+281cb94ca754   drupal-custom   "docker-php-entrypoi…"   22 minutes ago   Exited (0) 5 minutes ago             compose-assignment-2_drupal1_1
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/compose-assignment-2$
+
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/compose-assignment-2$ docker-compose up
+Starting compose-assignment-2_postgres1_1 ... done
+Starting compose-assignment-2_drupal1_1   ... done
+Attaching to compose-assignment-2_postgres1_1, compose-assignment-2_drupal1_1
+postgres1_1  |
+postgres1_1  | PostgreSQL Database directory appears to contain a database; Skipping initialization
+postgres1_1  |
+postgres1_1  | 2021-07-19 12:29:58.557 UTC [1] LOG:  starting PostgreSQL 12.1 (Debian 12.1-1.pgdg100+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 8.3.0-6) 8.3.0, 64-bit
+postgres1_1  | 2021-07-19 12:29:58.557 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+postgres1_1  | 2021-07-19 12:29:58.557 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+postgres1_1  | 2021-07-19 12:29:58.565 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+postgres1_1  | 2021-07-19 12:29:58.586 UTC [25] LOG:  database system was shut down at 2021-07-19 12:24:20 UTC
+postgres1_1  | 2021-07-19 12:29:58.590 UTC [1] LOG:  database system is ready to accept connections
+drupal1_1    | AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.20.0.3. Set the 'ServerName' directive globally to suppress this message
+drupal1_1    | AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.20.0.3. Set the 'ServerName' directive globally to suppress this message
+drupal1_1    | [Mon Jul 19 12:29:58.648832 2021] [mpm_prefork:notice] [pid 1] AH00163: Apache/2.4.25 (Debian) PHP/7.3.15 configured -- resuming normal operations
+drupal1_1    | [Mon Jul 19 12:29:58.648887 2021] [core:notice] [pid 1] AH00094: Command line: 'apache2 -D FOREGROUND'
+postgres1_1  | 2021-07-19 12:30:12.750 UTC [32] ERROR:  relation "cache_dynamic_page_cache" does not exist at character 68
+postgres1_1  | 2021-07-19 12:30:12.750 UTC [32] STATEMENT:  SELECT cid, data, created, expire, serialized, tags, checksum FROM cache_dynamic_page_cache WHERE cid IN ( 'response:[request_format]=html:[route]=view.frontpage.page_135786c7117b4e38d0f169239752ce71158266ae2f6e4aa230fbbb87bd699c0e3' ) ORDER BY cid
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:30:12 +0000] "GET / HTTP/1.1" 200 6415 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:30:13 +0000] "GET /sites/default/files/css/css_tIBenJ-LpSgyv0el-9my6xVzpD8sEAyvB8weBZ9ikus.css HTTP/1.1" 200 3158 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:30:13 +0000] "GET /sites/default/files/css/css_rppRGD_OoHfR_SJsouUbDXbYqdDsbR40sRSsm5MvFnw.css HTTP/1.1" 200 865 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:30:13 +0000] "GET /sites/default/files/css/css_cBSRp6xiMHysEawo8-zWz3NH62dttWifddr_j0ojlvA.css HTTP/1.1" 200 6754 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:30:13 +0000] "GET /sites/default/files/js/js_0GSefzyuL0YJJbxlwaOW1KhDkeRrw8SV65GEcPtzkMU.js HTTP/1.1" 200 66940 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:30:13 +0000] "GET /themes/bootstrap/logo.svg HTTP/1.1" 304 180 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:30:13 +0000] "GET /sites/default/files/js/js_nVjYjoR2v8XH9cH07EwRJh_L4wdadKL08GjJCyTbWIk.js HTTP/1.1" 200 71289 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:30:13 +0000] "GET /themes/bootstrap/favicon.ico HTTP/1.1" 304 180 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:30:13 +0000] "POST /contextual/render HTTP/1.1" 200 2106 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:31:04 +0000] "-" 408 0 "-" "-"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:31:33 +0000] "GET /core/misc/icons/000000/file.svg HTTP/1.1" 200 655 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/sites/default/files/css/css_cBSRp6xiMHysEawo8-zWz3NH62dttWifddr_j0ojlvA.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+postgres1_1  | 2021-07-19 12:31:33.437 UTC [35] ERROR:  relation "cache_dynamic_page_cache" does not exist at character 68
+postgres1_1  | 2021-07-19 12:31:33.437 UTC [35] STATEMENT:  SELECT cid, data, created, expire, serialized, tags, checksum FROM cache_dynamic_page_cache WHERE cid IN ( 'response:[request_format]=html:[route]=system.admin_content35786c7117b4e38d0f169239752ce71158266ae2f6e4aa230fbbb87bd699c0e3' ) ORDER BY cid
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:31:33 +0000] "GET /admin/content HTTP/1.1" 200 7890 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:31:33 +0000] "GET /sites/default/files/css/css_kjNPaEz4Ok5OoqDGnqyZFyr-ZZfxppIvu1dBXb2gaIk.css HTTP/1.1" 200 2449 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/content" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:31:33 +0000] "GET /sites/default/files/css/css_rppRGD_OoHfR_SJsouUbDXbYqdDsbR40sRSsm5MvFnw.css HTTP/1.1" 200 864 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/content" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:31:33 +0000] "GET /sites/default/files/css/css_AjBCadBDK6lxU7ofpXo0FHSNPmbNEomJNpURAKpZgzg.css HTTP/1.1" 200 5817 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/content" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:31:34 +0000] "GET /sites/default/files/js/js_wYPWTHwN4DTHWYteRSxPnaNoTcjWdAyffsZdvt1iiVA.js HTTP/1.1" 200 56572 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/content" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+drupal1_1    | 115.112.81.241 - - [19/Jul/2021:12:31:34 +0000] "GET /sites/default/files/js/js_5FyWwlVOfrtmJOgQsJf6BlK1OBiKzsFtvhRfl-g81t8.js HTTP/1.1" 200 29728 "http://ec2-65-0-6-172.ap-south-1.compute.amazonaws.com:8080/admin/content" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+^CGracefully stopping... (press Ctrl+C again to force)
+Stopping compose-assignment-2_postgres1_1 ... done
+Stopping compose-assignment-2_drupal1_1   ... done
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/compose-assignment-2$
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/compose-assignment-2$ docker-compose down -v
+Removing compose-assignment-2_postgres1_1 ... done
+Removing compose-assignment-2_drupal1_1   ... done
+Removing network compose-assignment-2_default
+Removing volume compose-assignment-2_drupal-modules
+Removing volume compose-assignment-2_drupal-profiles
+Removing volume compose-assignment-2_drupal-sites
+Removing volume compose-assignment-2_drupal-themes
+Removing volume compose-assignment-2_drupal-data
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/compose-assignment-2$ docker-compose down --help
+Stops containers and removes containers, networks, volumes, and images
+created by `up`.
+
+By default, the only things removed are:
+
+- Containers for services defined in the Compose file
+- Networks defined in the `networks` section of the Compose file
+- The default network, if one is used
+
+Networks and volumes defined as `external` are never removed.
+
+Usage: down [options]
+
+Options:
+    --rmi type              Remove images. Type must be one of:
+                              'all': Remove all images used by any service.
+                              'local': Remove only images that don't have a
+                              custom tag set by the `image` field.
+    -v, --volumes           Remove named volumes declared in the `volumes`
+                            section of the Compose file and anonymous volumes
+                            attached to containers.
+    --remove-orphans        Remove containers for services not defined in the
+                            Compose file
+    -t, --timeout TIMEOUT   Specify a shutdown timeout in seconds.
+                            (default: 10)
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/compose-assignment-2$ docker-compose down --rmi all
+Removing network compose-assignment-2_default
+WARNING: Network compose-assignment-2_default not found.
+Removing image drupal-custom
+Removing image postgres:12.1
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/compose-assignment-2$
