@@ -1,0 +1,148 @@
+# Assignment: Create A Multi-Service Multi-Node Web App
+
+## Goal: create networks, volumes, and services for a web-based "cats vs. dogs" voting app.
+
+- All images are on Docker Hub, so you should use editor to craft your commands locally, then paste them into swarm shell (at least that's how I'd do it)
+- a `backend` and `frontend` overlay network are needed. Nothing different about them other than that backend will help protect database from the voting web app. (similar to how a VLAN setup might be in traditional architecture)
+- The database server should use a named volume for preserving data. Use the new `--mount` format to do this: `--mount type=volume,source=db-data,target=/var/lib/postgresql/data`
+
+
+# Creating networks.
+
+docker network create --driver overlay frontend
+docker network create --driver overlay backend
+
+### Services (names below should be service names)
+- vote
+    - bretfisher/examplevotingapp_vote
+    - web front end for users to vote dog/cat
+    - ideally published on TCP 80. Container listens on 80
+    - on frontend network
+    - 2+ replicas of this container
+
+docker service create --name vote --network frontend -p 80:80 --replicas 2 bretfisher/examplevotingapp_vote
+
+- redis
+    - redis:3.2
+    - key/value storage for incoming votes
+    - no public ports
+    - on frontend network
+    - 1 replica NOTE VIDEO SAYS TWO BUT ONLY ONE NEEDED
+
+docker service create --name redis --network frontend --replicas 1 redis:3.2
+
+- worker
+    - bretfisher/examplevotingapp_worker
+    - backend processor of redis and storing results in postgres
+    - no public ports
+    - on frontend and backend networks
+    - 1 replica
+
+docker service create --name worker --network frontend --network backend --replicas 1 bretfisher/examplevotingapp_worker
+
+- db
+    - postgres:9.4
+    - one named volume needed, pointing to /var/lib/postgresql/data
+    - on backend network
+    - 1 replica
+    - remember set env for password-less connections -e POSTGRES_HOST_AUTH_METHOD=trust
+
+docker service create --name db --network backend --replicas 1 -e POSTGRES_HOST_AUTH_METHOD=trust --mount type=volume,source=db-data,target=/var/lib/postgresql/data postgres:9.4
+
+- result
+    - bretfisher/examplevotingapp_result
+    - web app that shows results
+    - runs on high port since just for admins (lets imagine)
+    - so run on a high port of your choosing (I choose 5001), container listens on 80
+    - on backend network
+    - 1 replica
+
+docker service create --name result --network backend --replicas 1 -p 5001:80 bretfisher/examplevotingapp_result
+
+
+# Solution and output below.
+
+ubuntu@ip-172-31-13-20:~$ docker network create --driver overlay frontend
+iwu2sg231yg3eec6a8jmmi61y
+ubuntu@ip-172-31-13-20:~$ docker network create --driver overlay backend
+ns4mafezkwdojxk4p6wtnw341
+ubuntu@ip-172-31-13-20:~$ docker service create --name vote --network frontend -p 80:80 --replicas 2 bretfisher/examplevotingapp_vote
+mudya912vpytb5do2tyxz7d51
+overall progress: 2 out of 2 tasks
+1/2: running   [==================================================>]
+2/2: running   [==================================================>]
+verify: Service converged
+ubuntu@ip-172-31-13-20:~$ docker service create --name redis --network --replicas 1 frontend redis:3.2
+Error: No such network: --replicas
+ubuntu@ip-172-31-13-20:~$ docker service create --name redis --network frontend --replicas 1 frontend redis:3.2
+image frontend:latest could not be accessed on a registry to record
+its digest. Each node will access frontend:latest independently,
+possibly leading to different nodes running different
+versions of the image.
+
+n8wngvb6rk33kd5q8bmfchpl9
+overall progress: 0 out of 1 tasks
+1/1: preparing [=================================>                 ]
+^COperation continuing in background.
+Use `docker service ps n8wngvb6rk33kd5q8bmfchpl9` to check progress.
+ubuntu@ip-172-31-13-20:~$ docker service ps n8wngvb6rk33kd5q8bmfchpl9
+ID             NAME          IMAGE             NODE              DESIRED STATE   CURRENT STATE             ERROR                              PORTS
+dg1ifjydxgft   redis.1       frontend:latest   ip-172-31-13-20   Ready           Preparing 1 second ago
+o2vruj0lepsm    \_ redis.1   frontend:latest   ip-172-31-13-20   Shutdown        Rejected 3 seconds ago    "No such image: frontend:latest"
+fgfqdmt3pvjf    \_ redis.1   frontend:latest   ip-172-31-13-20   Shutdown        Rejected 8 seconds ago    "No such image: frontend:latest"
+d63kk9llq972    \_ redis.1   frontend:latest   ip-172-31-7-206   Shutdown        Rejected 13 seconds ago   "No such image: frontend:latest"
+zou68dn7c61i    \_ redis.1   frontend:latest   ip-172-31-7-255   Shutdown        Rejected 18 seconds ago   "No such image: frontend:latest"
+ubuntu@ip-172-31-13-20:~$ docker service rm n8wngvb6rk33kd5q8bmfchpl9
+n8wngvb6rk33kd5q8bmfchpl9
+ubuntu@ip-172-31-13-20:~$ docker service create --name redis --network frontend --replicas 1 redis:3.2
+aic7cbxkhkyp79p3ex9jrtouv
+overall progress: 1 out of 1 tasks
+1/1: running   [==================================================>]
+verify: Service converged
+ubuntu@ip-172-31-13-20:~$ docker service create --name worker --network frontend backend --replicas 1 bretfisher/examplevotingapp_worker
+image backend:latest could not be accessed on a registry to record
+its digest. Each node will access backend:latest independently,
+possibly leading to different nodes running different
+versions of the image.
+
+g4d0d8jnbvmqrfujk444otqww
+overall progress: 0 out of 1 tasks
+1/1: preparing [=================================>                 ]
+^COperation continuing in background.
+Use `docker service ps g4d0d8jnbvmqrfujk444otqww` to check progress.
+ubuntu@ip-172-31-13-20:~$ docker service ps g4d0d8jnbvmqrfujk444otqww
+ID             NAME           IMAGE            NODE              DESIRED STATE   CURRENT STATE             ERROR                             PORTS
+ywac58jb96dj   worker.1       backend:latest   ip-172-31-13-20   Ready           Rejected 1 second ago     "No such image: backend:latest"
+nnjqnczl8xr1    \_ worker.1   backend:latest   ip-172-31-7-206   Shutdown        Rejected 6 seconds ago    "No such image: backend:latest"
+mwiswzxbvqs1    \_ worker.1   backend:latest   ip-172-31-13-20   Shutdown        Rejected 11 seconds ago   "No such image: backend:latest"
+6ukqt0m1uuov    \_ worker.1   backend:latest   ip-172-31-13-20   Shutdown        Rejected 16 seconds ago   "No such image: backend:latest"
+fw52k6gaq4cn    \_ worker.1   backend:latest   ip-172-31-13-20   Shutdown        Rejected 21 seconds ago   "No such image: backend:latest"
+ubuntu@ip-172-31-13-20:~$ docker service rm g4d0d8jnbvmqrfujk444otqww
+g4d0d8jnbvmqrfujk444otqww
+ubuntu@ip-172-31-13-20:~$ docker service create --name worker --network frontend --network backend --replicas 1 bretfisher/examplevotingapp_worker
+rkfp1xgfg9i34plncunqp7sio
+overall progress: 1 out of 1 tasks
+1/1: running   [==================================================>]
+verify: Service converged
+ubuntu@ip-172-31-13-20:~$ docker service create --name db --network backend --replicas 1 -e POSTGRES_HOST_AUTH_METHOD=trust --mount type=volume,source=db-data,target=/var/lib/postgresql/data postgres:9.4
+frd5b74eh7fcznzj3u4iritv4
+overall progress: 1 out of 1 tasks
+1/1: running   [==================================================>]
+verify: Service converged
+ubuntu@ip-172-31-13-20:~$ docker service create --name result --network backend --replicas 1 -p 80:5001 bretfisher/examplevotingapp_result
+Error response from daemon: rpc error: code = InvalidArgument desc = port '80' is already in use by service 'vote' (mudya912vpytb5do2tyxz7d51) as an ingress port
+ubuntu@ip-172-31-13-20:~$ docker service create --name result --network backend --replicas 1 -p 5001:80 bretfisher/examplevotingapp_result
+l99r9d7due3t7ta7jc8o6n1hg
+overall progress: 1 out of 1 tasks
+1/1: running   [==================================================>]
+verify: Service converged
+ubuntu@ip-172-31-13-20:~$
+
+ubuntu@ip-172-31-13-20:~$ docker service ls
+ID             NAME      MODE         REPLICAS   IMAGE                                       PORTS
+frd5b74eh7fc   db        replicated   1/1        postgres:9.4
+aic7cbxkhkyp   redis     replicated   1/1        redis:3.2
+l99r9d7due3t   result    replicated   1/1        bretfisher/examplevotingapp_result:latest   *:5001->80/tcp
+mudya912vpyt   vote      replicated   2/2        bretfisher/examplevotingapp_vote:latest     *:80->80/tcp
+rkfp1xgfg9i3   worker    replicated   1/1        bretfisher/examplevotingapp_worker:latest
+ubuntu@ip-172-31-13-20:~$

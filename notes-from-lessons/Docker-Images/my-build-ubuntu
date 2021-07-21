@@ -1,0 +1,11 @@
+# This build is based on ubuntu focal.
+FROM ubuntu:focal
+
+# This is to avoid manual data interaction for tzdata.
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update -y \
+  && apt-get upgrade -y \
+  && apt-get install git youtube-dl net-tools vim python3 tmux htop curl wget locate -y \
+# Now I will add some cool stuff. More to come.
+  && apt-get install lolcat -y

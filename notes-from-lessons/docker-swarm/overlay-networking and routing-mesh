@@ -1,0 +1,149 @@
+# In this example we will explore overlay networking and routing mesh examples.
+
+# We will deploy drupal with postgres on the swarm and them observe how overlay networking works.
+
+# Create a network with type overlay for this experiment.
+# Current node config.
+
+ubuntu@ip-172-31-13-20:~$ docker node ls
+ID                            HOSTNAME          STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+xpsqhp9uy4xixsmp8889bs218     ip-172-31-7-206   Ready     Active         Reachable        20.10.7
+zn3pstbp7obd8gl104dlj8iss     ip-172-31-7-255   Ready     Active         Reachable        20.10.7
+seasznlrex58pgrgwajdrjjkl *   ip-172-31-13-20   Ready     Active         Leader           20.10.7
+ubuntu@ip-172-31-13-20:~$
+
+ubuntu@ip-172-31-13-20:~$ docker network create --driver overlay mydrupal1
+2hjtyov0jdkumttvycqj5w7dl
+ubuntu@ip-172-31-13-20:~$
+ubuntu@ip-172-31-13-20:~$ docker network ls
+NETWORK ID     NAME              DRIVER    SCOPE
+1d90525ddfd4   bridge            bridge    local
+5038d3246257   docker_gwbridge   bridge    local
+8098b3279230   host              host      local
+87iq768uehc8   ingress           overlay   swarm
+2hjtyov0jdku   mydrupal1         overlay   swarm
+f3c0f3418024   none              null      local
+ubuntu@ip-172-31-13-20:~$
+
+# Now we will create postgres service.
+
+ubuntu@ip-172-31-13-20:~$ docker service create --name psql1 --network mydrupal1 -e POSTGRES_PASSWORD=admin123 postgres
+o7djo7jgqrj1aef2dubeigyw9
+overall progress: 1 out of 1 tasks
+1/1: running   [==================================================>]
+verify: Service converged
+ubuntu@ip-172-31-13-20:~$
+ubuntu@ip-172-31-13-20:~$ docker service ls
+ID             NAME      MODE         REPLICAS   IMAGE             PORTS
+o7djo7jgqrj1   psql1     replicated   1/1        postgres:latest
+ubuntu@ip-172-31-13-20:~$ docker service ps psql1
+ID             NAME      IMAGE             NODE              DESIRED STATE   CURRENT STATE            ERROR     PORTS
+4n0u1jb403j2   psql1.1   postgres:latest   ip-172-31-13-20   Running         Running 23 seconds ago
+ubuntu@ip-172-31-13-20:~$
+ubuntu@ip-172-31-13-20:~$ docker container logs psql1.1.4n0u1jb403j2h3h8t40316ass
+The files belonging to this database system will be owned by user "postgres".
+This user must also own the server process.
+<...TRUNCATED...>
+2021-07-20 14:56:22.874 UTC [1] LOG:  starting PostgreSQL 13.3 (Debian 13.3-1.pgdg100+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 8.3.0-6) 8.3.0, 64-bit
+2021-07-20 14:56:22.874 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+2021-07-20 14:56:22.874 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+2021-07-20 14:56:22.878 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2021-07-20 14:56:22.884 UTC [67] LOG:  database system was shut down at 2021-07-20 14:56:22 UTC
+2021-07-20 14:56:22.889 UTC [1] LOG:  database system is ready to accept connections
+ubuntu@ip-172-31-13-20:~$
+
+# Now we will create drupal service.
+
+ubuntu@ip-172-31-13-20:~$ docker service create --network mydrupal1 --name drupal1 -p 80:80 drupal
+4lxm3q2nrlb545l6habyrf2g7
+overall progress: 1 out of 1 tasks
+1/1: running   [==================================================>]
+verify: Service converged
+ubuntu@ip-172-31-13-20:~$
+ubuntu@ip-172-31-13-20:~$ docker service ls
+ID             NAME      MODE         REPLICAS   IMAGE             PORTS
+4lxm3q2nrlb5   drupal1   replicated   1/1        drupal:latest     *:80->80/tcp
+o7djo7jgqrj1   psql1     replicated   1/1        postgres:latest
+ubuntu@ip-172-31-13-20:~$ docker service ps drupal1
+ID             NAME        IMAGE           NODE              DESIRED STATE   CURRENT STATE            ERROR     PORTS
+x4zp1h8yx1by   drupal1.1   drupal:latest   ip-172-31-7-255   Running         Running 22 seconds ago
+ubuntu@ip-172-31-13-20:~$
+
+ubuntu@ip-172-31-13-20:~$ docker service ls
+ID             NAME      MODE         REPLICAS   IMAGE             PORTS
+4lxm3q2nrlb5   drupal1   replicated   1/1        drupal:latest     *:80->80/tcp
+o7djo7jgqrj1   psql1     replicated   1/1        postgres:latest
+ubuntu@ip-172-31-13-20:~$
+
+After setup and config, we can see the drupal website responding to all host IPs.
+
+This is happening due to routing mesh.
+
+----
+
+We will now create elasticsearch and show a demo on load balancing.
+
+# created 3 replicas of elasticsearch
+ubuntu@ip-172-31-13-20:~$ docker service create --name search1 --replicas 3 -p 9200:9200 elasticsearch:2
+j28us2ht4ybsih4c340lrczd1
+overall progress: 3 out of 3 tasks
+1/3: running   [==================================================>]
+2/3: running   [==================================================>]
+3/3: running   [==================================================>]
+verify: Service converged
+ubuntu@ip-172-31-13-20:~$
+ubuntu@ip-172-31-13-20:~$ docker service ls
+ID             NAME      MODE         REPLICAS   IMAGE             PORTS
+4lxm3q2nrlb5   drupal1   replicated   1/1        drupal:latest     *:80->80/tcp
+o7djo7jgqrj1   psql1     replicated   1/1        postgres:latest
+j28us2ht4ybs   search1   replicated   3/3        elasticsearch:2   *:9200->9200/tcp
+ubuntu@ip-172-31-13-20:~$ docker service ps search1
+ID             NAME        IMAGE             NODE              DESIRED STATE   CURRENT STATE            ERROR     PORTS
+0r54ut1bvahs   search1.1   elasticsearch:2   ip-172-31-13-20   Running         Running 57 seconds ago
+klsqlsqyypza   search1.2   elasticsearch:2   ip-172-31-7-206   Running         Running 57 seconds ago
+e8j75z939h24   search1.3   elasticsearch:2   ip-172-31-7-255   Running         Running 57 seconds ago
+ubuntu@ip-172-31-13-20:~$
+
+ubuntu@ip-172-31-13-20:~$ curl localhost:9200
+{
+  "name" : "Kamal",
+  "cluster_name" : "elasticsearch",
+  "cluster_uuid" : "tJTxzdE6REiFp6ESnrevHg",
+  "version" : {
+    "number" : "2.4.6",
+    "build_hash" : "5376dca9f70f3abef96a77f4bb22720ace8240fd",
+    "build_timestamp" : "2017-07-18T12:17:44Z",
+    "build_snapshot" : false,
+    "lucene_version" : "5.5.4"
+  },
+  "tagline" : "You Know, for Search"
+}
+ubuntu@ip-172-31-13-20:~$ curl localhost:9200
+{
+  "name" : "Sean Cassidy",
+  "cluster_name" : "elasticsearch",
+  "cluster_uuid" : "3q2NdGn-T9myDMvkBWYJPw",
+  "version" : {
+    "number" : "2.4.6",
+    "build_hash" : "5376dca9f70f3abef96a77f4bb22720ace8240fd",
+    "build_timestamp" : "2017-07-18T12:17:44Z",
+    "build_snapshot" : false,
+    "lucene_version" : "5.5.4"
+  },
+  "tagline" : "You Know, for Search"
+}
+ubuntu@ip-172-31-13-20:~$ curl localhost:9200
+{
+  "name" : "Orikal",
+  "cluster_name" : "elasticsearch",
+  "cluster_uuid" : "UGejlg_eSBOp2gV67hp9_A",
+  "version" : {
+    "number" : "2.4.6",
+    "build_hash" : "5376dca9f70f3abef96a77f4bb22720ace8240fd",
+    "build_timestamp" : "2017-07-18T12:17:44Z",
+    "build_snapshot" : false,
+    "lucene_version" : "5.5.4"
+  },
+  "tagline" : "You Know, for Search"
+}
+ubuntu@ip-172-31-13-20:~$
