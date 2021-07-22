@@ -1,0 +1,75 @@
+We will deploy the voting app using the "docker stack deploy" command.
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/swarm-stack-1$ ll
+total 68
+drwxrwxr-x  2 ubuntu ubuntu  4096 Jul 13 15:52 ./
+drwxrwxr-x 32 ubuntu ubuntu  4096 Jul 13 15:52 ../
+-rw-rw-r--  1 ubuntu ubuntu 54824 Jul 13 15:52 architecture.png
+-rw-rw-r--  1 ubuntu ubuntu  1758 Jul 13 15:52 example-voting-app-stack.yml
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/swarm-stack-1$ docker stack deploy -c example-voting-app-stack.yml voteapp
+Creating network voteapp_frontend
+Creating network voteapp_backend
+Creating service voteapp_vote
+Creating service voteapp_result
+Creating service voteapp_worker
+Creating service voteapp_visualizer
+Creating service voteapp_redis
+Creating service voteapp_db
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/swarm-stack-1$
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/swarm-stack-1$ docker service ls
+ID             NAME                 MODE         REPLICAS   IMAGE                                       PORTS
+kl39u40k6nbb   voteapp_db           replicated   1/1        postgres:9.4
+r6gl21vgw7lq   voteapp_redis        replicated   1/1        redis:alpine
+vw5duwnlbbxn   voteapp_result       replicated   1/1        bretfisher/examplevotingapp_result:latest   *:5001->80/tcp
+uk208hg16pye   voteapp_visualizer   replicated   1/1        bretfisher/visualizer:latest                *:8080->8080/tcp
+r2kvvgoaqw5l   voteapp_vote         replicated   2/2        bretfisher/examplevotingapp_vote:latest     *:5000->80/tcp
+u1i0k94g7sk4   voteapp_worker       replicated   1/1        bretfisher/examplevotingapp_worker:latest
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/swarm-stack-1$ docker stack ls
+NAME      SERVICES   ORCHESTRATOR
+voteapp   6          Swarm
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/swarm-stack-1$ docker stack ps voteapp
+ID             NAME                   IMAGE                                       NODE              DESIRED STATE   CURRENT STATE                ERROR     PORTS
+xb6ppqfgzvbl   voteapp_db.1           postgres:9.4                                ip-172-31-13-20   Running         Running 2 minutes ago
+c5w71zax1jw4   voteapp_redis.1        redis:alpine                                ip-172-31-7-255   Running         Running 2 minutes ago
+v277471ewcoe   voteapp_result.1       bretfisher/examplevotingapp_result:latest   ip-172-31-7-255   Running         Running 2 minutes ago
+vzcbvftjp50w   voteapp_visualizer.1   bretfisher/visualizer:latest                ip-172-31-7-206   Running         Running about a minute ago
+h83fzfmza1l3   voteapp_vote.1         bretfisher/examplevotingapp_vote:latest     ip-172-31-7-206   Running         Running 2 minutes ago
+m30tslj9tgcx   voteapp_vote.2         bretfisher/examplevotingapp_vote:latest     ip-172-31-13-20   Running         Running 2 minutes ago
+tskkvjjj77ir   voteapp_worker.1       bretfisher/examplevotingapp_worker:latest   ip-172-31-13-20   Running         Running 2 minutes ago
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/swarm-stack-1$
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/swarm-stack-1$ docker stack services voteapp
+ID             NAME                 MODE         REPLICAS   IMAGE                                       PORTS
+kl39u40k6nbb   voteapp_db           replicated   1/1        postgres:9.4
+r6gl21vgw7lq   voteapp_redis        replicated   1/1        redis:alpine
+vw5duwnlbbxn   voteapp_result       replicated   1/1        bretfisher/examplevotingapp_result:latest   *:5001->80/tcp
+uk208hg16pye   voteapp_visualizer   replicated   1/1        bretfisher/visualizer:latest                *:8080->8080/tcp
+r2kvvgoaqw5l   voteapp_vote         replicated   2/2        bretfisher/examplevotingapp_vote:latest     *:5000->80/tcp
+u1i0k94g7sk4   voteapp_worker       replicated   1/1        bretfisher/examplevotingapp_worker:latest
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/swarm-stack-1$
+
+# After making a change at the config file, we can re-run the deploy command for the changes to take effect.
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/swarm-stack-1$ docker stack deploy -c example-voting-app-stack.yml voteapp
+Updating service voteapp_visualizer (id: uk208hg16pye4l2f1lb7b2wk0)
+Updating service voteapp_redis (id: r6gl21vgw7lqtp793qhqtkyos)
+Updating service voteapp_db (id: kl39u40k6nbbm60prl1xv4ecs)
+Updating service voteapp_vote (id: r2kvvgoaqw5lqoqs8j2ny3z4c)
+Updating service voteapp_result (id: vw5duwnlbbxngxc6k5454j2wa)
+Updating service voteapp_worker (id: u1i0k94g7sk48c658my3kbjfi)
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/swarm-stack-1$
+
+# We can observe the changes at the replicas now.
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/swarm-stack-1$ docker stack services voteapp
+ID             NAME                 MODE         REPLICAS   IMAGE                                       PORTS
+kl39u40k6nbb   voteapp_db           replicated   1/1        postgres:9.4
+r6gl21vgw7lq   voteapp_redis        replicated   1/1        redis:alpine
+vw5duwnlbbxn   voteapp_result       replicated   1/1        bretfisher/examplevotingapp_result:latest   *:5001->80/tcp
+uk208hg16pye   voteapp_visualizer   replicated   1/1        bretfisher/visualizer:latest                *:8080->8080/tcp
+r2kvvgoaqw5l   voteapp_vote         replicated   5/5        bretfisher/examplevotingapp_vote:latest     *:5000->80/tcp
+u1i0k94g7sk4   voteapp_worker       replicated   1/1        bretfisher/examplevotingapp_worker:latest
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/swarm-stack-1$
+
+# visualizer will display the same data.
