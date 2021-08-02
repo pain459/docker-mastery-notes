@@ -1,0 +1,226 @@
+# In this demo, we will attempt to create our own private registry and later we will dedicate a volume to the same.
+
+1. Run a registry image.
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$ docker container run -d -p 5000:5000 --name registry-local registry:latest
+Unable to find image 'registry:latest' locally
+latest: Pulling from library/registry
+ddad3d7c1e96: Pull complete
+6eda6749503f: Pull complete
+363ab70c2143: Pull complete
+5b94580856e6: Pull complete
+12008541203a: Pull complete
+Digest: sha256:121baf25069a56749f249819e36b386d655ba67116d9c1c6c8594061852de4da
+Status: Downloaded newer image for registry:latest
+c777b0b9dc3980d8076148b580a211d90e325dbd969800ce9ed533a83c5cd32a
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$ docker container ps -a
+CONTAINER ID   IMAGE             COMMAND                  CREATED          STATUS          PORTS                                       NAMES
+c777b0b9dc39   registry:latest   "/entrypoint.sh /etc…"   17 seconds ago   Up 16 seconds   0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   registry-local
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$
+
+# Now we see the container is running. We will attempt to run an image and push to our private registry.
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$ docker container run hello-world
+Unable to find image 'hello-world:latest' locally
+latest: Pulling from library/hello-world
+b8dfde127a29: Pull complete
+Digest: sha256:df5f5184104426b65967e016ff2ac0bfcd44ad7899ca3bbcf8e44e4461491a9e
+Status: Downloaded newer image for hello-world:latest
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+
+# our hello-world container ran. We will check the images and containers now.
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$ docker container ps -a
+CONTAINER ID   IMAGE             COMMAND                  CREATED              STATUS                          PORTS                                       NAMES
+ded8d5e6dcb1   hello-world       "/hello"                 About a minute ago   Exited (0) About a minute ago                                               jolly_borg
+c777b0b9dc39   registry:latest   "/entrypoint.sh /etc…"   4 minutes ago        Up 4 minutes                    0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   registry-local
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$ docker image ls
+REPOSITORY    TAG       IMAGE ID       CREATED        SIZE
+registry      latest    1fd8e1b0bb7e   3 months ago   26.2MB
+hello-world   latest    d1165f221234   4 months ago   13.3kB
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$
+
+2. Tag the hello-world container with local registry and push to local registry.
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$ docker tag hello-world 127.0.0.1:5000/hello-world
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$ docker push 127.0.0.1:5000/hello-world
+Using default tag: latest
+The push refers to repository [127.0.0.1:5000/hello-world]
+f22b99068db9: Pushed
+latest: digest: sha256:1b26826f602946860c279fce658f31050cff2c596583af237d971f4629b57792 size: 525
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$
+
+3. Do a cleanup of created images and container and then pull it freshly from the local registry.
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$ docker image ls
+REPOSITORY                   TAG       IMAGE ID       CREATED        SIZE
+registry                     latest    1fd8e1b0bb7e   3 months ago   26.2MB
+127.0.0.0:5000/hello-world   latest    d1165f221234   4 months ago   13.3kB
+127.0.0.1:5000/hello-world   latest    d1165f221234   4 months ago   13.3kB
+hello-world                  latest    d1165f221234   4 months ago   13.3kB
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$ docker container ps -a
+CONTAINER ID   IMAGE             COMMAND                  CREATED         STATUS                     PORTS                                       NAMES
+ded8d5e6dcb1   hello-world       "/hello"                 3 minutes ago   Exited (0) 3 minutes ago                                               jolly_borg
+c777b0b9dc39   registry:latest   "/entrypoint.sh /etc…"   7 minutes ago   Up 7 minutes               0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   registry-local
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$ docker container rm ded8d5e6dcb1
+ded8d5e6dcb1
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$ docker image ls
+REPOSITORY                   TAG       IMAGE ID       CREATED        SIZE
+registry                     latest    1fd8e1b0bb7e   3 months ago   26.2MB
+127.0.0.0:5000/hello-world   latest    d1165f221234   4 months ago   13.3kB
+127.0.0.1:5000/hello-world   latest    d1165f221234   4 months ago   13.3kB
+hello-world                  latest    d1165f221234   4 months ago   13.3kB
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$ docker image rmi 127.0.0.0:5000/hello-world 127.0.0.1:5000/hello-world hello-world
+Untagged: 127.0.0.0:5000/hello-world:latest
+Untagged: 127.0.0.1:5000/hello-world:latest
+Untagged: 127.0.0.1:5000/hello-world@sha256:1b26826f602946860c279fce658f31050cff2c596583af237d971f4629b57792
+Untagged: hello-world:latest
+Untagged: hello-world@sha256:df5f5184104426b65967e016ff2ac0bfcd44ad7899ca3bbcf8e44e4461491a9e
+Deleted: sha256:d1165f2212346b2bab48cb01c1e39ee8ad1be46b87873d9ca7a4e434980a7726
+Deleted: sha256:f22b99068db93900abe17f7f5e09ec775c2826ecfe9db961fea68293744144bd
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$
+
+# Now we will pull from local registry.
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$ docker container run 127.0.0.1:5000/hello-world
+Unable to find image '127.0.0.1:5000/hello-world:latest' locally
+latest: Pulling from hello-world
+b8dfde127a29: Pull complete
+Digest: sha256:1b26826f602946860c279fce658f31050cff2c596583af237d971f4629b57792
+Status: Downloaded newer image for 127.0.0.1:5000/hello-world:latest
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$ docker image ls -a
+REPOSITORY                   TAG       IMAGE ID       CREATED        SIZE
+registry                     latest    1fd8e1b0bb7e   3 months ago   26.2MB
+127.0.0.1:5000/hello-world   latest    d1165f221234   4 months ago   13.3kB
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$ docker container ps -a
+CONTAINER ID   IMAGE                        COMMAND                  CREATED          STATUS                      PORTS                                       NAMES
+aa029908ef7d   127.0.0.1:5000/hello-world   "/hello"                 39 seconds ago   Exited (0) 38 seconds ago                                               festive_bouman
+c777b0b9dc39   registry:latest              "/entrypoint.sh /etc…"   10 minutes ago   Up 10 minutes               0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   registry-local
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$ docker container rm aa029908ef7d; docker rmi 127.0.0.1:5000/hello-world
+aa029908ef7d
+Untagged: 127.0.0.1:5000/hello-world:latest
+Untagged: 127.0.0.1:5000/hello-world@sha256:1b26826f602946860c279fce658f31050cff2c596583af237d971f4629b57792
+Deleted: sha256:d1165f2212346b2bab48cb01c1e39ee8ad1be46b87873d9ca7a4e434980a7726
+Deleted: sha256:f22b99068db93900abe17f7f5e09ec775c2826ecfe9db961fea68293744144bd
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$
+
+4. We will now kill the existing container and start a new container with local volume. This will save the data.
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$ docker container ps -a
+CONTAINER ID   IMAGE             COMMAND                  CREATED          STATUS          PORTS                                       NAMES
+c777b0b9dc39   registry:latest   "/entrypoint.sh /etc…"   12 minutes ago   Up 12 minutes   0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   registry-local
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$ docker container stop c777b0b9dc39
+c777b0b9dc39
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$ docker container rm c777b0b9dc39
+c777b0b9dc39
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$
+
+# starting with local volume
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$ pwd
+/home/ubuntu/repos/udemy-docker-mastery/registry-sample-1
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$ docker container run -d -p 5000:5000 -v /home/ubuntu/repos/udemy-docker-mastery/registry-sample-1/registry-data:/var/lib/registry registry:latest
+691671256f8a0895e8424ed09e5bf71175fc9750d571669da2f9b230d614aeb2
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1$
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1/registry-data$ du -csh *
+140K    docker
+140K    total
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1/registry-data$ docker image pull nginx:latest
+latest: Pulling from library/nginx
+33847f680f63: Pull complete
+dbb907d5159d: Pull complete
+8a268f30c42a: Pull complete
+b10cf527a02d: Pull complete
+c90b090c213b: Pull complete
+1f41b2f2bf94: Pull complete
+Digest: sha256:8f335768880da6baf72b70c701002b45f4932acae8d574dedfddaf967fc3ac90
+Status: Downloaded newer image for nginx:latest
+docker.io/library/nginx:latest
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1/registry-data$ docker image ls
+REPOSITORY   TAG       IMAGE ID       CREATED        SIZE
+nginx        latest    08b152afcfae   11 days ago    133MB
+registry     latest    1fd8e1b0bb7e   3 months ago   26.2MB
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1/registry-data$ docker tag nginx 127.0.0.1:5000/nginx-lr
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1/registry-data$ docker image ls
+REPOSITORY                TAG       IMAGE ID       CREATED        SIZE
+127.0.0.1:5000/nginx-lr   latest    08b152afcfae   11 days ago    133MB
+nginx                     latest    08b152afcfae   11 days ago    133MB
+registry                  latest    1fd8e1b0bb7e   3 months ago   26.2MB
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1/registry-data$ docker push 127.0.0.1:5000/nginx-lr
+Using default tag: latest
+The push refers to repository [127.0.0.1:5000/nginx-lr]
+e3135447ca3e: Pushed
+b85734705991: Pushed
+988d9a3509bb: Pushed
+59b01b87c9e7: Pushed
+7c0b223167b9: Pushed
+814bff734324: Pushed
+latest: digest: sha256:3f13b4376446cf92b0cb9a5c46ba75d57c41f627c4edb8b635fa47386ea29e20 size: 1570
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1/registry-data$ du -csh *
+52M     docker
+52M     total
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1/registry-data$
+
+# We can clearly see the size growth of the volume.
+
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1/registry-data$ docker container ps -a
+CONTAINER ID   IMAGE             COMMAND                  CREATED         STATUS         PORTS                                       NAMES
+691671256f8a   registry:latest   "/entrypoint.sh /etc…"   3 minutes ago   Up 3 minutes   0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   jovial_lamarr
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1/registry-data$ docker container stop 691671256f8a
+691671256f8a
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1/registry-data$ docker container rm 691671256f8a
+691671256f8a
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1/registry-data$ du -csh *
+52M     docker
+52M     total
+ubuntu@ip-172-31-7-255:~/repos/udemy-docker-mastery/registry-sample-1/registry-data$
+
+# data is available even after terminating the container.
